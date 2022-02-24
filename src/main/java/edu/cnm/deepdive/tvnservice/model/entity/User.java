@@ -36,6 +36,23 @@ public class User {
   private UUID id;
 
   @NonNull
+  @Column(updatable = false, nullable = false, unique = true, length = 30)
+  @JsonIgnore
+  private String oauthKey;
+
+  @NonNull
+  @Column(nullable = false, unique = true)
+  private String displayName;
+
+  @NonNull
+  @Column(nullable = false, unique = true)
+  private String name;
+
+  @NonNull
+  @Column(nullable = false)
+  private String location;
+
+  @NonNull
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @Column(updatable = false, nullable = false)
@@ -48,19 +65,6 @@ public class User {
   private UUID externalKey;
 
   @NonNull
-  @Column(updatable = false, nullable = false, unique = true, length = 30)
-  @JsonIgnore
-  private String oauthKey;
-
-  @NonNull
-  @Column(nullable = false, unique = true)
-  private String name;
-
-  @NonNull
-  @Column(nullable = false)
-  private String location;
-
-  @NonNull
   private UUID organization_owner;
 
   @NonNull
@@ -69,7 +73,32 @@ public class User {
   private final List<History> history = new LinkedList<>();
 
 
-
-
+  @NonNull
+  public UUID getId() {
+    return id;
   }
+
+  @NonNull
+  public Date getCreated() {
+    return created;
+  }
+
+  @NonNull
+  public UUID getExternalKey() {
+    return externalKey;
+  }
+
+  @NonNull
+  public UUID getOrganization_owner() {
+    return organization_owner;
+  }
+
+  public void setOauthKey(@NonNull String oauthKey) {
+    this.oauthKey = oauthKey;
+  }
+
+  public void setDisplayName(@NonNull String displayName) {
+    this.displayName = displayName;
+  }
+}
 

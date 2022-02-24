@@ -27,15 +27,19 @@ public class History {
   private String user_favorite;
 
   @NonNull
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @JsonIgnore
+  private User user;
+
+  @NonNull
   private String message;
 
   @NonNull
   private String search;
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
-  @JsonIgnore
-  private User user;
-
+  public UUID getHistory_id() {
+    return history_id;
+  }
 }
