@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import net.minidev.json.annotate.JsonIgnore;
@@ -33,13 +34,9 @@ public class Organization {
   @Column(nullable = false, updatable = false, unique = true)
   private String name;
 
-  /**    NICK SAID WAIT ON MANY-TO-MANY
-   @NonNull
-   @ManyToMany  //TODO: UPDATE ME AFTER EXPLANATION!
-   @JoinColumn(name = "user_id", nullable = false, updatable = false)
-   @JsonIgnore
-   private User user;
-   */
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "owner_id")
+  private User owner;
 
   @NonNull
   @Column(nullable = false)

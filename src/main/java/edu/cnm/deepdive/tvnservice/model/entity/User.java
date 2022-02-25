@@ -65,9 +65,6 @@ public class User {
   private UUID externalKey;
 
   @NonNull
-  private UUID organization_owner;
-
-  @NonNull
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   private final List<History> history = new LinkedList<>();
@@ -86,11 +83,6 @@ public class User {
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
-  }
-
-  @NonNull
-  public UUID getOrganization_owner() {
-    return organization_owner;
   }
 
   public void setOauthKey(@NonNull String oauthKey) {
