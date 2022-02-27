@@ -18,19 +18,12 @@ public class History {
   @NonNull
   @Id
   @GeneratedValue
-  @Column(name = "history_id", updatable = false, nullable = false, columnDefinition = "UUID")
+  @Column(name = "histories_id", updatable = false, nullable = false, columnDefinition = "UUID")
   @JsonIgnore
-  private UUID history_id;
+  private UUID id;
 
   @NonNull
-  @Column(nullable = true, updatable = true)
-  private String user_favorite;
-
-  @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
-  @JsonIgnore
-  private User user;
+  private String userFavorite;
 
   @NonNull
   private String message;
@@ -39,7 +32,49 @@ public class History {
   private String search;
 
   @NonNull
-  public UUID getHistory_id() {
-    return history_id;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @JsonIgnore
+  private User user;
+
+  @NonNull
+  public UUID getHistories_id() {
+    return id;
+  }
+
+  @NonNull
+  public String getUserFavorite() {
+    return userFavorite;
+  }
+
+  public void setUserFavorite(@NonNull String userFavorite) {
+    this.userFavorite = userFavorite;
+  }
+
+  @NonNull
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(@NonNull String message) {
+    this.message = message;
+  }
+
+  @NonNull
+  public String getSearch() {
+    return search;
+  }
+
+  public void setSearch(@NonNull String search) {
+    this.search = search;
+  }
+
+  @NonNull
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(@NonNull User user) {
+    this.user = user;
   }
 }

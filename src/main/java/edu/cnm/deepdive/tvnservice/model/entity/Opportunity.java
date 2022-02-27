@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.tvnservice.model.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -19,13 +18,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 @Entity
-public class Organization {
-
+public class Opportunity {
 
   @NonNull
   @Id
   @GeneratedValue
-  @Column(name = "organization_id", updatable = false, nullable = false, columnDefinition = "UUID")
+  @Column(name = "opportunity_id", updatable = false, nullable = false, columnDefinition = "UUID")
   @JsonIgnore
   private UUID id;
 
@@ -35,28 +33,35 @@ public class Organization {
   private UUID externalKey;
 
   @NonNull
-  @Column(nullable = false, updatable = false, unique = true)
+  @Column(nullable = false, unique = true)
   private String name;
 
   @NonNull
-  @Column(nullable = false)
-  private String about;
+  private String title;
+
+
 
   @NonNull
-  @Column(nullable = false)
-  private String mission;
+  private String neededSkill;
+
+  @NonNull
+  private String description;
 
   @NonNull
   @CreationTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(value= TemporalType.TIMESTAMP)
   @Column(updatable = false, nullable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Date created;
+  private Date calendar;
+
+  @NonNull
+  private int availablePosition;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "owner_id", nullable = false)
-  private User owner;
+  @JoinColumn(name = "organization_id", nullable = false, updatable = false)
+  @JsonIgnore
+  private User orgId;
 
   @NonNull
   public UUID getId() {
@@ -78,33 +83,51 @@ public class Organization {
   }
 
   @NonNull
-  public String getAbout() {
-    return about;
+  public String getTitle() {
+    return title;
   }
 
-  public void setAbout(@NonNull String about) {
-    this.about = about;
-  }
-
-  @NonNull
-  public String getMission() {
-    return mission;
-  }
-
-  public void setMission(@NonNull String mission) {
-    this.mission = mission;
+  public void setTitle(@NonNull String title) {
+    this.title = title;
   }
 
   @NonNull
-  public Date getCreated() {
-    return created;
+  public String getNeededSkill() {
+    return neededSkill;
   }
 
-  public User getOwner() {
-    return owner;
+  public void setNeededSkill(@NonNull String neededSkill) {
+    this.neededSkill = neededSkill;
   }
 
-  public void setOwner(User owner) {
-    this.owner = owner;
+  @NonNull
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(@NonNull String description) {
+    this.description = description;
+  }
+
+  @NonNull
+  public Date getCalendar() {
+    return calendar;
+  }
+
+  public int getAvailablePosition() {
+    return availablePosition;
+  }
+
+  public void setAvailablePosition(int availablePosition) {
+    this.availablePosition = availablePosition;
+  }
+
+  @NonNull
+  public User getOrgId() {
+    return orgId;
+  }
+
+  public void setOrgId(@NonNull User orgId) {
+    this.orgId = orgId;
   }
 }

@@ -36,12 +36,17 @@ public class User {
   private UUID id;
 
   @NonNull
+  @Column(updatable = false, nullable = false, unique = true, columnDefinition = "UUID")
+  @JsonProperty(value = "id", access = Access.READ_ONLY)
+  private UUID externalKey;
+
+  @NonNull
   @Column(updatable = false, nullable = false, unique = true, length = 30)
   @JsonIgnore
   private String oauthKey;
 
   @NonNull
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false, unique = true, length = 50)
   private String displayName;
 
   @NonNull
@@ -60,24 +65,20 @@ public class User {
   private Date created;
 
   @NonNull
-  @Column(updatable = false, nullable = false, unique = true, columnDefinition = "UUID")
-  @JsonProperty(value = "id", access = Access.READ_ONLY)
-  private UUID externalKey;
+  @Column(unique = true)
+  private String email;
+
+  @Column(unique = true)
+  private String phoneNumber;
 
   @NonNull
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<History> history = new LinkedList<>();
-
+  private final List<History> histories = new LinkedList<>();
 
   @NonNull
   public UUID getId() {
     return id;
-  }
-
-  @NonNull
-  public Date getCreated() {
-    return created;
   }
 
   @NonNull
@@ -92,5 +93,51 @@ public class User {
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
   }
+
+  @NonNull
+  public String getName() {
+    return name;
+  }
+
+  public void setName(@NonNull String name) {
+    this.name = name;
+  }
+
+  @NonNull
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(@NonNull String location) {
+    this.location = location;
+  }
+
+  @NonNull
+  public Date getCreated() {
+    return created;
+  }
+
+  @NonNull
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(@NonNull String email) {
+    this.email = email;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  @NonNull
+  public List<History> getHistories() {
+    return histories;
+  }
+
 }
 
