@@ -86,8 +86,18 @@ public class User {
     return externalKey;
   }
 
+  @NonNull
+  public String getOauthKey() {
+    return oauthKey;
+  }
+
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
+  }
+
+  @NonNull
+  public String getDisplayName() {
+    return displayName;
   }
 
   public void setDisplayName(@NonNull String displayName) {
