@@ -52,8 +52,6 @@ public class User {
   @Column(nullable = false, unique = true)
   private String name;
 
-  @NonNull
-  @Column(nullable = false)
   private String location;
 
   @NonNull
@@ -63,7 +61,6 @@ public class User {
   @JsonProperty(access = Access.READ_ONLY)
   private Date created;
 
-  @NonNull
   @Column(unique = true)
   private String email;
 

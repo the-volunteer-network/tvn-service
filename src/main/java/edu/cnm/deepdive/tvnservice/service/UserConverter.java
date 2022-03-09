@@ -22,7 +22,9 @@ public class UserConverter implements Converter<Jwt, UsernamePasswordAuthenticat
   public UsernamePasswordAuthenticationToken convert(Jwt source) {
     Collection<SimpleGrantedAuthority> grants =
         Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
-    User user = service.getOrCreate(source.getSubject(), source.getClaimAsString("name"));
+    User user = service.getOrCreate(source.getSubject(), source.getClaimAsString("name"),
+        source.getClaimAsString("email"), source.getClaimAsString("given_name"),
+        source.getClaimAsString("family_name"));
     return new UsernamePasswordAuthenticationToken(user, source.getTokenValue(), grants);
   }
 }
