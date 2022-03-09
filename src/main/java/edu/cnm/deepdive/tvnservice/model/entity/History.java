@@ -77,4 +77,5 @@ public class History {
   public void setUser(@NonNull User user) {
     this.user = user;
   }
+
 }
