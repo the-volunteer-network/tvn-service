@@ -35,7 +35,7 @@ public abstract class UserService implements AbstractUserService {
         //  -> Set additional fields prior to save
         .orElseGet(() -> {
           User user = new User();
-          user.setLocation(loca);
+          user.setLocation();
           user.setName();
           user.setOauthKey(oauthKey);
           user.setDisplayName(displayName);
