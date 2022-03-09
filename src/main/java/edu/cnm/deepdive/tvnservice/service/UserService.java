@@ -22,11 +22,12 @@ public abstract class UserService implements AbstractUserService {
     //  -> this data needs to be passed as argument here
     return repository
         .findByOauthKey(oauthKey)
-        .map((user -> {
-          user.setConnected(new Date());
-          return repository.save(user);
-        }))
-         TODO Use setters from User class -> Set additional fields prior to save ->
+//        .map((user -> {
+//          user.setConnected(new Date());
+//          return repository.save(user);
+//        }))
+        // TODO Use setters from User class
+        //  -> Set additional fields prior to save
         .orElseGet(() -> {
           User user = new User();
           user.setOauthKey(oauthKey);
