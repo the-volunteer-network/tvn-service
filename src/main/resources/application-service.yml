@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: service
+  jackson:
+    deserialization:
+      accept-float-as-int: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          client-id:
+
+
+server:
+  port: 8085
+  servlet:
+    context-path: /tvn-service
+  error:
+    include-message: always
+  forward-headers-strategy: native
