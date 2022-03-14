@@ -6,6 +6,9 @@ import java.util.UUID;
 
 public interface AbstractOrganizationService {
 
+  // TODO Modify based on entire object at a time, OR multiple modify methods for each.
+  // TODO Need to be able to get information by the external key
+
   Organization addOrganization(Organization organization, User owner);
 
   void deleteOrganization(UUID externalKey, User owner);
