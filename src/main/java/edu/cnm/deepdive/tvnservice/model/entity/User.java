@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -72,11 +71,6 @@ public class User {
 
   @Column(unique = true)
   private String phoneNumber;
-
-  @NonNull
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<History> histories = new LinkedList<>();
 
   @ManyToMany(fetch = FetchType.LAZY,
       cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -164,11 +158,6 @@ public class User {
 
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
-  }
-
-  @NonNull
-  public List<History> getHistories() {
-    return histories;
   }
 
   public List<Organization> getOrganizations() {
