@@ -61,7 +61,7 @@ public class Opportunity {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "organization_id", nullable = false, updatable = false)
   @JsonIgnore
-  private User orgId;
+  private Organization organization;
 
   @NonNull
   public UUID getId() {
@@ -123,11 +123,11 @@ public class Opportunity {
   }
 
   @NonNull
-  public User getOrgId() {
-    return orgId;
+  public Organization getOrganization() {
+    return organization;
   }
 
-  public void setOrgId(@NonNull User orgId) {
-    this.orgId = orgId;
+  public void setOrganization(@NonNull Organization organization) {
+    this.organization = organization;
   }
 }

@@ -13,14 +13,19 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
     name = "user_profile"
@@ -67,10 +72,25 @@ public class User {
   @Column(unique = true)
   private String phoneNumber;
 
-  @NonNull
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<History> histories = new LinkedList<>();
+  @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "organization_volunteer",
+      joinColumns = @JoinColumn(name = "volunteer_id", nullable = false, updatable = false),
+      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
+      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "volunteer_id"})
+  )
+  @OrderBy("name ASC")
+  private final List<Organization> organizations = new LinkedList<>();
+
+  @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "user_favorite",
+      joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
+      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
+  )
+  @OrderBy("name ASC")
+  private final List<Organization> favorites = new LinkedList<>();
 
   @NonNull
   public UUID getId() {
@@ -140,13 +160,12 @@ public class User {
     this.phoneNumber = phoneNumber;
   }
 
-  @NonNull
-  public List<History> getHistories() {
-    return histories;
+  public List<Organization> getOrganizations() {
+    return organizations;
   }
 
-  public void setConnected(Date date) {
-
+  public List<Organization> getFavorites() {
+    return favorites;
   }
 }
 
