@@ -7,10 +7,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-public abstract class UserService implements AbstractUserService {
+public  class UserService implements AbstractUserService {
 
   private final UserRepository repository;
-  private User user;
 
 
   @Autowired
@@ -21,18 +20,8 @@ public abstract class UserService implements AbstractUserService {
   @Override
   public User getOrCreate(String oauthKey, String displayName, String email, String givenName,
       String familyName)  {
-    // TODO Bearer token required
-    //  -> populate location/name
-    //  -> this data needs to be passed as argument here
     return repository
         .findByOauthKey(oauthKey)
-        .map((user -> {
-          user.getLocation();
-          user.getName();
-          return repository.save(user);
-        }))
-        // TODO Use setters from User class
-        //  -> Set additional fields prior to save
         .orElseGet(() -> {
           User user = new User();
           user.setName(String.format("%s, %s", familyName, givenName));
@@ -50,6 +39,11 @@ public abstract class UserService implements AbstractUserService {
         .getContext()
         .getAuthentication()
         .getPrincipal();
+  }
+
+  @Override
+  public User updateUser(User received) {
+    return null;
   }
 
 
