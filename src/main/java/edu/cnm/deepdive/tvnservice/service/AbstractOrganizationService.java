@@ -10,7 +10,8 @@ public interface AbstractOrganizationService {
 
   void deleteOrganization(UUID externalKey, User owner);
 
-  Organization modifyOrganization(String name, Organization organization, User owner);
+  Organization modifyOrganization(UUID externalKey, String name, String about, String mission,
+      User owner);
 
 
 
