@@ -1,6 +1,9 @@
 package edu.cnm.deepdive.tvnservice.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
@@ -17,11 +20,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -30,6 +33,7 @@ import org.springframework.lang.NonNull;
 @Table(
     name = "user_profile"
 )
+@JsonInclude(Include.NON_NULL)
 public class User {
 
   @NonNull
@@ -80,6 +84,7 @@ public class User {
       uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "volunteer_id"})
   )
   @OrderBy("name ASC")
+  @JsonIgnore
   private final List<Organization> organizations = new LinkedList<>();
 
   @ManyToMany(fetch = FetchType.LAZY,
@@ -90,6 +95,7 @@ public class User {
       uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
   )
   @OrderBy("name ASC")
+  @JsonIgnore
   private final List<Organization> favorites = new LinkedList<>();
 
   @NonNull
@@ -166,6 +172,13 @@ public class User {
 
   public List<Organization> getFavorites() {
     return favorites;
+  }
+
+  @PrePersist
+  private void setAdditionalFields() {
+
+    externalKey = UUID.randomUUID();
+
   }
 }
 
