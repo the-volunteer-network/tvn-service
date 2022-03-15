@@ -2,31 +2,32 @@ package edu.cnm.deepdive.tvnservice.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
+@JsonInclude(Include.NON_NULL)
 public class Organization {
 
 
@@ -62,17 +63,19 @@ public class Organization {
   private Date created;
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
   @OrderBy("name ASC")
+  @JsonIgnore
   private final List<User> volunteers = new LinkedList<>();
 
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favorites")
   @OrderBy("name ASC")
+  @JsonIgnore
   private final List<User> favoritingUsers = new LinkedList<>();
 
 
@@ -131,5 +134,10 @@ public class Organization {
   }
   public List<User> getFavoritingUsers() {
     return favoritingUsers;
+  }
+
+  @PrePersist
+  private void setAdditionalFields() {
+    externalKey = UUID.randomUUID();
   }
 }

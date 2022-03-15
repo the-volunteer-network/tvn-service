@@ -2,6 +2,7 @@ package edu.cnm.deepdive.tvnservice.service;
 
 import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface AbstractOrganizationService {
@@ -13,9 +14,8 @@ public interface AbstractOrganizationService {
 
   void deleteOrganization(UUID externalKey, User owner);
 
-  Organization modifyOrganization(UUID externalKey, String name, String about, String mission,
-      User owner);
+  Organization modifyOrganization(Organization organization, User owner);
 
 
-
+  Optional<Organization> getOrganization(UUID organizationId);
 }
