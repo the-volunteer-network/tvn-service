@@ -22,6 +22,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -44,15 +46,21 @@ public class Organization {
   private UUID externalKey;
 
   @NonNull
-  @Column(nullable = false, updatable = false, unique = true)
+  @Column(nullable = false, unique = true)
+  @NotNull
+  @NotBlank
   private String name;
 
   @NonNull
   @Column(nullable = false)
+  @NotNull
+  @NotBlank
   private String about;
 
   @NonNull
   @Column(nullable = false)
+  @NotNull
+  @NotBlank
   private String mission;
 
   @NonNull

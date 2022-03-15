@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrganizationService implements AbstractOrganizationService{
+public class OrganizationService implements AbstractOrganizationService {
 
   private final OrganizationRepository repository;
 
@@ -25,17 +25,45 @@ public class OrganizationService implements AbstractOrganizationService{
 
   @Override
   public void deleteOrganization(UUID externalKey, User owner) {
-
+    repository
+        .findByExternalKeyAndOwner(externalKey, owner)
+        .ifPresent(repository::delete);
   }
 
   @Override
-  public Organization modifyOrganization(Organization organization, User owner) {
-    return null;
+  public Optional<Organization> modifyOrganization(UUID externalKey,
+      Organization receivedOrganization, User owner) {
+    return repository
+        .findByExternalKeyAndOwner(externalKey, owner)
+        .map((organization) -> {
+          organization.setName(receivedOrganization.getName());
+          organization.setAbout(receivedOrganization.getAbout());
+          organization.setMission(receivedOrganization.getMission());
+          return repository.save(organization);
+        });
   }
 
   @Override
   public Optional<Organization> getOrganization(UUID externalKey) {
     return repository.findByExternalKey(externalKey);
   }
+
+  @Override
+  public Optional<String> getName(UUID organizationId) {
+    return getOrganization(organizationId)
+        .map(Organization::getName);
+  }
+
+  @Override
+  public Optional<String> modifyName(UUID organizationId, String name, User owner) {
+    return repository
+        .findByExternalKeyAndOwner(organizationId, owner)
+        .map((organization) -> {
+          organization.setName(name);
+          return repository.save(organization);
+        })
+        .map(Organization::getName);
+  }
+
 
 }

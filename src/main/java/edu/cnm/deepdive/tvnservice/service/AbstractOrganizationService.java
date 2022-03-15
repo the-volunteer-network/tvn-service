@@ -14,8 +14,13 @@ public interface AbstractOrganizationService {
 
   void deleteOrganization(UUID externalKey, User owner);
 
-  Organization modifyOrganization(Organization organization, User owner);
-
+  Optional<Organization> modifyOrganization(UUID externalKey, Organization receivedOrganization,
+      User owner);
 
   Optional<Organization> getOrganization(UUID organizationId);
+
+  Optional<String> getName(UUID organizationId);
+
+  Optional<String> modifyName(UUID organizationId, String name, User owner);
+
 }
