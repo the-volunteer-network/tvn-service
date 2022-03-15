@@ -28,6 +28,9 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * Encapsulates the property of the user of this service.
+ */
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
@@ -108,11 +111,19 @@ public class User {
     return externalKey;
   }
 
+  /**
+   *
+   * @return the Oauth Key of this user
+   */
   @NonNull
   public String getOauthKey() {
     return oauthKey;
   }
 
+  /**
+   * Sets the oAuth key of this user.
+   * @param oauthKey
+   */
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
   }
@@ -126,11 +137,18 @@ public class User {
     this.displayName = displayName;
   }
 
+  /**
+   *
+   * @return user's name.
+   */
   @NonNull
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets the name of this user specific to {@code name}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
