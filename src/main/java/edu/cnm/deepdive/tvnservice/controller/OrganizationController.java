@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.OrganizationService;
@@ -37,9 +39,12 @@ public class OrganizationController {
   private final ObjectMapper mapper;
 
   /**
-   * Initializes this instance with {@link OrganizationService} &amp; {@link UserService},instances used to perform the requested operations.
-   * @param userService  provides access to high-level query &amp; persistence operations on {@link User} instances.
-   * @param  organizationService provides persistence operations on {@link Organization}.
+   * Initializes this instance with {@link OrganizationService} &amp; {@link UserService},instances
+   * used to perform the requested operations.
+   *
+   * @param userService         provides access to high-level query &amp; persistence operations on
+   *                            {@link User} instances.
+   * @param organizationService provides persistence operations on {@link Organization}.
    */
 
   public OrganizationController(
@@ -52,6 +57,7 @@ public class OrganizationController {
 
   /**
    * selecting and returning a specified {@link Organization}.
+   *
    * @param organizationId a unique identifier {@link Organization} resource.
    * @return specified {@link Organization}
    */
@@ -65,7 +71,8 @@ public class OrganizationController {
 
   /**
    * add an {@link Organization} to the service.
-   * @param organization  {@link Organization} to be added to the database table.
+   *
+   * @param organization {@link Organization} to be added to the database table.
    * @return a ResponseEntity of successful creation.
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,7 +92,6 @@ public class OrganizationController {
   }
 
   /**
-   *
    * @param organizationId a unique identifier {@link Organization} resource.
    */
   @DeleteMapping(value = "/{organizationId}")
@@ -95,7 +101,8 @@ public class OrganizationController {
   }
 
   @PutMapping(value = "/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public Organization modify(@PathVariable UUID organizationId, @RequestBody @Valid Organization organization) {
+  public Organization modify(@PathVariable UUID organizationId,
+      @RequestBody @Valid Organization organization) {
     return organizationService
         .modifyOrganization(organizationId, organization, userService.getCurrentUser())
         .orElseThrow();
@@ -116,7 +123,8 @@ public class OrganizationController {
   }
 
   @PutMapping(value = "/{organizationId}/name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public String putName(@PathVariable UUID organizationId, @RequestBody @NotNull @Pattern(regexp = "^\\s*\".*?\\S.*\"\\s*$") String name)
+  public String putName(@PathVariable UUID organizationId,
+      @RequestBody @NotNull @Pattern(regexp = "^\\s*\".*?\\S.*\"\\s*$") String name)
       throws JsonProcessingException {
     String unquotedName = mapper.readValue(name, String.class);
     return organizationService
@@ -129,6 +137,16 @@ public class OrganizationController {
           }
         })
         .orElseThrow();
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<Organization> getAll() {
+    return organizationService.getAll();
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = {"q"})
+  public Iterable<Organization> search(@RequestParam(name = "q") @Size(min = 2) String fragment) {
+    return organizationService.searchByName(fragment);
   }
 
 }

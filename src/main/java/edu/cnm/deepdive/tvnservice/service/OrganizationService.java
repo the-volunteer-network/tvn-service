@@ -65,5 +65,15 @@ public class OrganizationService implements AbstractOrganizationService {
         .map(Organization::getName);
   }
 
+  @Override
+  public Iterable<Organization> getAll() {
+    return repository.getAllByOrderByNameAsc();
+  }
+
+  @Override
+  public Iterable<Organization> searchByName(String fragment) {
+    return repository.findByNameContainingOrderByNameAsc(fragment);
+  }
+
 
 }

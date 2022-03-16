@@ -13,4 +13,7 @@ public interface OrganizationRepository extends JpaRepository<Organization, UUID
 
   Optional<Organization> findByExternalKeyAndOwner(UUID externalKey, User owner);
 
+  Iterable<Organization> findByNameContainingOrderByNameAsc(String fragment);
+
+  Iterable<Organization> getAllByOrderByNameAsc();
 }

@@ -23,4 +23,9 @@ public interface AbstractOrganizationService {
 
   Optional<String> modifyName(UUID organizationId, String name, User owner);
 
+  Iterable<Organization> getAll();
+
+  Iterable<Organization> searchByName(String fragment);
+
+
 }
