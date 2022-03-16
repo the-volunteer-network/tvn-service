@@ -9,19 +9,23 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
@@ -75,7 +79,12 @@ public class Organization {
   @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "user_favorite",
+      joinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
+      inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
+  )
   @OrderBy("name ASC")
   @JsonIgnore
   private final List<User> volunteers = new LinkedList<>();
@@ -142,6 +151,25 @@ public class Organization {
   }
   public List<User> getFavoritingUsers() {
     return favoritingUsers;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean eq;
+    if (this == obj) {
+      eq = true;
+    } else {
+      //noinspection ConstantConditions
+      eq = (obj instanceof Organization
+          && getId() != null
+          && getId().equals(((Organization) obj).getId()));
+    }
+    return eq;
   }
 
   @PrePersist

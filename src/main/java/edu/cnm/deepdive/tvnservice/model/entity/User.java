@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -80,27 +82,19 @@ public class User {
   @Column(unique = true)
   private String phoneNumber;
 
-  @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "organization_volunteer",
-      joinColumns = @JoinColumn(name = "volunteer_id", nullable = false, updatable = false),
-      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
-      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "volunteer_id"})
-  )
+
+
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers")
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<Organization> organizations = new LinkedList<>();
+  private final Set<Organization> organizations = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY,
       cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "user_favorite",
-      joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
-      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
-      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
-  )
+
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<Organization> favorites = new LinkedList<>();
+  private final Set<Organization> favorites = new LinkedHashSet<>();
 
   @NonNull
   public UUID getId() {
@@ -194,7 +188,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, externalKey, created, name, displayName, location, email, phoneNumber);
+    return Objects.hash(getId());
   }
 
   @Override
@@ -202,20 +196,11 @@ public class User {
     boolean eq;
     if (this == obj) {
       eq = true;
-    } else if (obj instanceof User) {
-      User other = (User) obj;
-      //noinspection ConstantConditions
-      if (id != null && id.equals(other.id)) {
-        eq = name.equals(other.name)
-            && displayName.equals(other.displayName)
-            && Objects.equals(location, other.location)
-            && Objects.equals(email, other.email)
-            && Objects.equals(phoneNumber, other.phoneNumber);
-      } else {
-        eq = false;
-      }
     } else {
-      eq = false;
+      //noinspection ConstantConditions
+      eq = (obj instanceof User
+          && getId() != null
+          && getId().equals(((User) obj).getId()));
     }
     return eq;
   }
