@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -112,7 +113,6 @@ public class User {
   }
 
   /**
-   *
    * @return the Oauth Key of this user
    */
   @NonNull
@@ -122,6 +122,7 @@ public class User {
 
   /**
    * Sets the oAuth key of this user.
+   *
    * @param oauthKey
    */
   public void setOauthKey(@NonNull String oauthKey) {
@@ -138,7 +139,6 @@ public class User {
   }
 
   /**
-   *
    * @return user's name.
    */
   @NonNull
@@ -190,6 +190,34 @@ public class User {
 
   public List<Organization> getFavorites() {
     return favorites;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, externalKey, created, name, displayName, location, email, phoneNumber);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean eq;
+    if (this == obj) {
+      eq = true;
+    } else if (obj instanceof User) {
+      User other = (User) obj;
+      //noinspection ConstantConditions
+      if (id != null && id.equals(other.id)) {
+        eq = name.equals(other.name)
+            && displayName.equals(other.displayName)
+            && Objects.equals(location, other.location)
+            && Objects.equals(email, other.email)
+            && Objects.equals(phoneNumber, other.phoneNumber);
+      } else {
+        eq = false;
+      }
+    } else {
+      eq = false;
+    }
+    return eq;
   }
 
   @PrePersist
