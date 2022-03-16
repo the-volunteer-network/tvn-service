@@ -3,6 +3,7 @@ package edu.cnm.deepdive.tvnservice.model.dao;
 import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,11 +33,11 @@ public interface OrganizationRepository extends JpaRepository<Organization, UUID
    * @param fragment String passed on in the search to retrieve a specified {@link Organization}
    * @return the specified {@link Organization}
    */
-  Iterable<Organization> findByNameContainingOrderByNameAsc(String fragment);
+  List<Organization> findByNameContainingOrderByNameAsc(String fragment);
 
   /**
    * Retrieves all of the {@link Organization} in the Database.
    * @return All of the {@link Organization} in the Database in  ascending order.
    */
-  Iterable<Organization> getAllByOrderByNameAsc();
+  List<Organization> getAllByOrderByNameAsc();
 }

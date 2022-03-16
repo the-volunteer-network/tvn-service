@@ -42,9 +42,10 @@ public interface AbstractOrganizationService {
   /**
    *  Retrieved the specified {@link Organization} from the Database
    * @param organizationId passed to retrieve this instance from to the Database
+   * @param user
    * @return the specified {@link Organization}
    */
-  Optional<Organization> getOrganization(UUID organizationId);
+  Optional<Organization> getOrganization(UUID organizationId, User user);
 
   /**
    * Retrieves the specified name from the database
@@ -63,17 +64,17 @@ public interface AbstractOrganizationService {
   Optional<String> modifyName(UUID organizationId, String name, User owner);
 
   /**
-   *
+   * @param user
    * @return
    */
-  Iterable<Organization> getAll();
+  Iterable<Organization> getAll(User user);
 
   /**
-   *
+   * @param user
    * @param fragment
    * @return
    */
-  Iterable<Organization> searchByName(String fragment);
+  Iterable<Organization> searchByName(String fragment, User user);
 
 
 }

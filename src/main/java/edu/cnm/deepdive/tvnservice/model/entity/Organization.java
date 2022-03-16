@@ -27,6 +27,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -100,6 +101,9 @@ public class Organization {
   @OrderBy("name ASC")
   @JsonIgnore
   private final Set<User> favoritingUsers = new LinkedHashSet<>();
+
+  @Transient
+  private boolean favorite;
 
   /**
    *
@@ -202,6 +206,22 @@ public class Organization {
    */
   public Set<User> getFavoritingUsers() {
     return favoritingUsers;
+  }
+
+  /**
+   *
+   * @return
+   */
+  public boolean isFavorite() {
+    return favorite;
+  }
+
+  /**
+   *
+   * @param favorite
+   */
+  public void setFavorite(boolean favorite) {
+    this.favorite = favorite;
   }
 
   @Override

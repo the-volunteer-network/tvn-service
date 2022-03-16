@@ -1,8 +1,11 @@
 package edu.cnm.deepdive.tvnservice.service;
 
 import edu.cnm.deepdive.tvnservice.model.entity.User;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
+ * high-level operations available to be performed on
  * Method to be implemented in the {@link UserService}
  */
 public interface AbstractUserService {
@@ -32,4 +35,18 @@ public interface AbstractUserService {
    */
   User updateUser(User received);
 
+  /**
+   *
+   * @param externalKey
+   * @param user
+   * @param favorite
+   * @return
+   */
+  Optional<Boolean> setFavorite(UUID externalKey, User user, boolean favorite) ;
+
+  Optional<Boolean> getFavorite(UUID externalKey, User user);
+
+  Optional<Boolean> setVolunteer(UUID organizationExternalKey, User user, boolean volunteer);
+
+  Optional<Boolean> getVolunteer(UUID organizationExternalKey,  User user);
 }

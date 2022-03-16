@@ -5,12 +5,24 @@ import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OrganizationService implements AbstractOrganizationService {
 
   private final OrganizationRepository repository;
+  private final BiFunction<Organization, User , Organization> favoriteMarker = (org, user) -> {
+    if (user != null) {
+      org.setFavorite(user.getFavorites().contains(org));
+    }else {
+      org.setFavorite(false);
+    }
+    return org;
+  };
+
 
   public OrganizationService(
       OrganizationRepository repository) {
@@ -40,17 +52,20 @@ public class OrganizationService implements AbstractOrganizationService {
           organization.setAbout(receivedOrganization.getAbout());
           organization.setMission(receivedOrganization.getMission());
           return repository.save(organization);
-        });
+        })
+        .map((org) -> favoriteMarker.apply(org, owner));
   }
 
   @Override
-  public Optional<Organization> getOrganization(UUID externalKey) {
-    return repository.findByExternalKey(externalKey);
+  public Optional<Organization> getOrganization(UUID externalKey,User user) {
+    return repository
+        .findByExternalKey(externalKey)
+        .map((org) -> favoriteMarker.apply(org,user));
   }
 
   @Override
   public Optional<String> getName(UUID organizationId) {
-    return getOrganization(organizationId)
+    return getOrganization(organizationId, null)
         .map(Organization::getName);
   }
 
@@ -66,13 +81,21 @@ public class OrganizationService implements AbstractOrganizationService {
   }
 
   @Override
-  public Iterable<Organization> getAll() {
-    return repository.getAllByOrderByNameAsc();
+  public Iterable<Organization> getAll(User user) {
+    return repository
+        .getAllByOrderByNameAsc()
+        .stream()
+        .map((org) -> favoriteMarker.apply(org, user))
+        .collect(Collectors.toList());
   }
 
   @Override
-  public Iterable<Organization> searchByName(String fragment) {
-    return repository.findByNameContainingOrderByNameAsc(fragment);
+  public Iterable<Organization> searchByName(String fragment, User user) {
+    return repository
+        .findByNameContainingOrderByNameAsc(fragment)
+        .stream()
+        .map((org) -> favoriteMarker.apply(org, user))
+        .collect(Collectors.toList());
   }
 
 

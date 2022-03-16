@@ -66,7 +66,7 @@ public class OrganizationController {
   @GetMapping(value = "/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Organization get(@PathVariable UUID organizationId) {
     return organizationService
-        .getOrganization(organizationId)
+        .getOrganization(organizationId,userService.getCurrentUser())
         .orElseThrow();
   }
 
@@ -166,7 +166,7 @@ public class OrganizationController {
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getAll() {
-    return organizationService.getAll();
+    return organizationService.getAll(userService.getCurrentUser());
   }
 
   /**
@@ -176,7 +176,7 @@ public class OrganizationController {
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = {"q"})
   public Iterable<Organization> search(@RequestParam(name = "q") @Size(min = 2) String fragment) {
-    return organizationService.searchByName(fragment);
+    return organizationService.searchByName(fragment, userService.getCurrentUser());
   }
 
 }

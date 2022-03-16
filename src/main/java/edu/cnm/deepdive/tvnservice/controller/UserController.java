@@ -1,9 +1,15 @@
 package edu.cnm.deepdive.tvnservice.controller;
 
+import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import edu.cnm.deepdive.tvnservice.service.AbstractUserService;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.UserService;
@@ -32,4 +38,37 @@ public class UserController {
   public User getProfile() {
     return userService.getCurrentUser();
   }
+
+  /**
+   *
+   * @param organizationId
+   * @return
+   */
+  @GetMapping(value = "/me/favorites/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public boolean isFavorite(@PathVariable UUID organizationId) {
+    return userService
+        .getFavorite(organizationId, userService.getCurrentUser())
+        .orElseThrow();
+  }
+
+  @PutMapping(value = "/me/favorites/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public boolean setFavorite(@PathVariable UUID organizationId, @RequestBody boolean favorite) {
+    return userService
+        .setFavorite(organizationId, userService.getCurrentUser(), favorite)
+        .orElseThrow();
+  }
+
+  @GetMapping(value = "/me/favorites",produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<Organization> getFavorites (){
+    return userService
+        .getCurrentUser()
+        .getFavorites()
+        .stream()
+        .peek((org) -> org.setFavorite(true))
+        .collect(Collectors.toList());
+  }
+
+  // TODO add current user to volunteer for organization
+  // Todo gets a list of organizations I am a  volunteer for
+  // todo mark a volunteer for an organization (cf: 3 above methods)
 }

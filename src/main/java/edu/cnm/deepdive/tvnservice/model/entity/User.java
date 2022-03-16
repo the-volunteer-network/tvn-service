@@ -89,12 +89,12 @@ public class User {
   @JsonIgnore
   private final Set<Organization> ownedOrganizations = new LinkedHashSet<>();
 
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers")
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "volunteers")
   @OrderBy("name ASC")
   @JsonIgnore
   private final Set<Organization> organizations = new LinkedHashSet<>();
 
-  @ManyToMany(fetch = FetchType.LAZY,
+  @ManyToMany(fetch = FetchType.EAGER,
       cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "user_favorite",
       joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
