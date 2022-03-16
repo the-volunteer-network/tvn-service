@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -82,7 +83,11 @@ public class User {
   @Column(unique = true)
   private String phoneNumber;
 
-
+  @NonNull
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+  @OrderBy("name ASC")
+  @JsonIgnore
+  private final Set<Organization> ownedOrganizations = new LinkedHashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "volunteers")
   @OrderBy("name ASC")
@@ -91,7 +96,11 @@ public class User {
 
   @ManyToMany(fetch = FetchType.LAZY,
       cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-
+  @JoinTable(name = "user_favorite",
+      joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
+      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
+  )
   @OrderBy("name ASC")
   @JsonIgnore
   private final Set<Organization> favorites = new LinkedHashSet<>();
@@ -223,9 +232,18 @@ public class User {
 
   /**
    *
+   * @return
+   */
+  @NonNull
+  public Set<Organization> getOwnedOrganizations() {
+    return ownedOrganizations;
+  }
+
+  /**
+   *
    @return the email of the specified {@link User}
    */
-  public List<Organization> getOrganizations() {
+  public Set<Organization> getOrganizations() {
     return organizations;
   }
 
@@ -233,7 +251,7 @@ public class User {
    *
    @return the email of the specified {@link User}
    */
-  public List<Organization> getFavorites() {
+  public Set<Organization> getFavorites() {
     return favorites;
   }
 

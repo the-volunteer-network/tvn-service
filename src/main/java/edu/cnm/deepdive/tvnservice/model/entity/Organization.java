@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -91,13 +93,13 @@ public class Organization {
   )
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<User> volunteers = new LinkedList<>();
+  private final Set<User> volunteers = new LinkedHashSet<>();
 
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favorites")
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<User> favoritingUsers = new LinkedList<>();
+  private final Set<User> favoritingUsers = new LinkedHashSet<>();
 
   /**
    *
@@ -190,7 +192,7 @@ public class Organization {
    *
    * @return
    */
-  public List<User> getVolunteers() {
+  public Set<User> getVolunteers() {
     return volunteers;
   }
 
@@ -198,7 +200,7 @@ public class Organization {
    *
    * @return
    */
-  public List<User> getFavoritingUsers() {
+  public Set<User> getFavoritingUsers() {
     return favoritingUsers;
   }
 
