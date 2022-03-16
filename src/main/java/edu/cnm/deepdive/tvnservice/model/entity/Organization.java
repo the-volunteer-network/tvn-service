@@ -31,6 +31,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+
+/**
+ * Encapsulates the property of the {@link Opportunity} of this service.
+ */
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @JsonInclude(Include.NON_NULL)
@@ -95,60 +99,105 @@ public class Organization {
   @JsonIgnore
   private final List<User> favoritingUsers = new LinkedList<>();
 
-
+  /**
+   *
+   * @return the id of the specified {@link User}
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
 
+  /**
+   * @return @return the ExternalKey of the specified {@link User}
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
-
+  /**
+   *
+   * @return the name of the specified {@link User}.
+   */
   @NonNull
   public String getName() {
     return name;
   }
-
+  /**
+   * Sets the name of this user specific to {@code name}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getAbout() {
     return about;
   }
 
+  /**
+   * Sets the name of this user specific to {@code name}
+   */
   public void setAbout(@NonNull String about) {
     this.about = about;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getMission() {
     return mission;
   }
 
+  /**
+   * Sets the name of this user specific to {@code name}
+   */
   public void setMission(@NonNull String mission) {
     this.mission = mission;
   }
-
+  /**
+   *
+   * @return the date of creation of this specified {@link User}
+   */
   @NonNull
   public Date getCreated() {
     return created;
   }
 
+  /**
+   *
+   * @return
+   */
   public User getOwner() {
     return owner;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param owner
+   */
   public void setOwner(User owner) {
     this.owner = owner;
   }
 
+  /**
+   *
+   * @return
+   */
   public List<User> getVolunteers() {
     return volunteers;
   }
+
+  /**
+   *
+   * @return
+   */
   public List<User> getFavoritingUsers() {
     return favoritingUsers;
   }

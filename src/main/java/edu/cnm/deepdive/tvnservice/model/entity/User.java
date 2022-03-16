@@ -96,11 +96,18 @@ public class User {
   @JsonIgnore
   private final Set<Organization> favorites = new LinkedHashSet<>();
 
+  /**
+   *
+   * @return the id of the specified {@link User}
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
 
+  /**
+   * @return @return the ExternalKey of the specified {@link User}
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
@@ -123,17 +130,25 @@ public class User {
     this.oauthKey = oauthKey;
   }
 
+  /**
+   *
+   * @return the display name of the specified {@link User}
+   */
   @NonNull
   public String getDisplayName() {
     return displayName;
   }
 
+  /**
+   * Sets the display name of the specified {@link User} specific to {@code displayName}
+   * @param displayName
+   */
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
   }
 
   /**
-   * @return user's name.
+   * @return the name of the specified {@link User}.
    */
   @NonNull
   public String getName() {
@@ -147,41 +162,77 @@ public class User {
     this.name = name;
   }
 
+
+  /**
+   *
+   * @return the location of a specified {@link User}.
+   */
   @NonNull
   public String getLocation() {
     return location;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param location
+   */
   public void setLocation(@NonNull String location) {
     this.location = location;
   }
 
+  /**
+   *
+   * @return the date of creation of this specified {@link User}
+   */
   @NonNull
   public Date getCreated() {
     return created;
   }
 
+  /**
+   *
+   * @return the email of the specified {@link User}
+   */
   @NonNull
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Sets the name of this user specific to {@code name}
+   * @param email
+   */
   public void setEmail(@NonNull String email) {
     this.email = email;
   }
 
+  /**
+   *
+   @return the email of the specified {@link User}   */
   public String getPhoneNumber() {
     return phoneNumber;
   }
 
+  /**
+   * Sets the name of this user specific to {@code name}
+   * @param phoneNumber
+   */
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
+  /**
+   *
+   @return the email of the specified {@link User}
+   */
   public List<Organization> getOrganizations() {
     return organizations;
   }
 
+  /**
+   *
+   @return the email of the specified {@link User}
+   */
   public List<Organization> getFavorites() {
     return favorites;
   }

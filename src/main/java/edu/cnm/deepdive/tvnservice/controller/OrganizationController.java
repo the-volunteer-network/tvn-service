@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.OrganizationService;
 
+/**
+ * Controller for the {@link Organization} entity class.
+ */
 @RestController
 @RequestMapping("/organizations")
 public class OrganizationController {
@@ -91,7 +94,8 @@ public class OrganizationController {
   }
 
   /**
-   * @param organizationId a unique identifier {@link Organization} resource.
+   * Delete a specified {@link Organization}from the Database.
+   * @param organizationId  a unique identifier {@link Organization} resource.
    */
   @DeleteMapping(value = "/{organizationId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -99,6 +103,12 @@ public class OrganizationController {
     organizationService.deleteOrganization(organizationId, userService.getCurrentUser());
   }
 
+  /**
+   * Modify a specified {@link Organization}
+   * @param organizationId a unique identifier {@link Organization} resource.
+   * @param organization an instance of the {@link Organization} entity
+   * @return the modified {@link Organization} to the Database.
+   */
   @PutMapping(value = "/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Organization modify(@PathVariable UUID organizationId,
       @RequestBody @Valid Organization organization) {
@@ -107,6 +117,11 @@ public class OrganizationController {
         .orElseThrow();
   }
 
+  /**
+   *  Pass a name to request a specified {@link Organization}.
+   * @param organizationId a unique identifier {@link Organization} resource.
+   * @return
+   */
   @GetMapping(value = "/{organizationId}/name", produces = MediaType.APPLICATION_JSON_VALUE)
   public String getName(@PathVariable UUID organizationId) {
     return organizationService
@@ -121,6 +136,13 @@ public class OrganizationController {
         .orElseThrow();
   }
 
+  /**
+   * Add the name of an {@link Organization} to the Database.
+   * @param organizationId a unique identifier {@link Organization} resource.
+   * @param name to be added to the database
+   * @return
+   * @throws JsonProcessingException exception to catch, throw a RunTimeException.
+   */
   @PutMapping(value = "/{organizationId}/name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public String putName(@PathVariable UUID organizationId,
       @RequestBody @NotNull @Pattern(regexp = "^\\s*\".*?\\S.*\"\\s*$") String name)
@@ -138,11 +160,20 @@ public class OrganizationController {
         .orElseThrow();
   }
 
+  /**
+   *  Retrieve all of the {@link Organization} in the Database.
+   * @return all of the  {@link Organization}
+   */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getAll() {
     return organizationService.getAll();
   }
 
+  /**
+   *  Search &amp; retrieve a specified {@link Organization}
+   * @param fragment part of the String passed in the search to retrieve a specified {@link Organization}
+   * @return
+   */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = {"q"})
   public Iterable<Organization> search(@RequestParam(name = "q") @Size(min = 2) String fragment) {
     return organizationService.searchByName(fragment);

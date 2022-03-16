@@ -19,7 +19,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
-
+/**
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @Profile("service")
@@ -33,7 +35,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private String clientId;
 
-
+  /**
+   *
+   * @param converter
+   */
   public SecurityConfiguration(
       Converter<Jwt, ? extends AbstractAuthenticationToken> converter) {
     this.converter = converter;
@@ -56,6 +61,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .jwtAuthenticationConverter(converter);
   }
 
+  /**
+   *
+   * @return
+   */
   public JwtDecoder jwtDecoder() {
     NimbusJwtDecoder decoder = JwtDecoders.fromIssuerLocation(issuerUri);
     OAuth2TokenValidator<Jwt> audienceValidator =

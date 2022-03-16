@@ -6,11 +6,19 @@ import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.UUID;
 
+/**
+ *
+ */
 public class OpportunityService implements AbstractOpportunityService{
 
   private final OpportunityRepository opportunityRepository;
   private final OrganizationRepository organizationRepository;
 
+  /**
+   *
+   * @param repository
+   * @param organizationRepository
+   */
   public OpportunityService(OpportunityRepository repository,
       OrganizationRepository organizationRepository) {
     this.opportunityRepository = repository;

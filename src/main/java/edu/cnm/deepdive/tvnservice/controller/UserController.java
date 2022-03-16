@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.UserService;
 
+/**
+ * Controller for the {@link User} entity class.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -15,7 +18,7 @@ public class UserController {
   private final AbstractUserService userService;
 
   /**
-   * Initializes this instance with {@link UserService},instance used to perform the requested operations.
+   * Initialize this instance with {@link UserService},instance used to perform the requested operations.
    * @param userService provides access to high-level query &amp; persistence operations on {@link User} instances.
    */
   public UserController(AbstractUserService userService) {
@@ -23,8 +26,7 @@ public class UserController {
   }
 
   /**
-   * Returns current user.
-   *
+   * Return current user.
    */
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getProfile() {

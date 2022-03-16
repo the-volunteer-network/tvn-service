@@ -12,11 +12,16 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     /**
      * Retrieves a {@link User} with the specified externalKey if it exists.
-     * @param externalKey
-     * @return
+     * @param externalKey passed on to retrieve the specified {@link User}
+     * @return the specified {@link User}
      */
     Optional<User> findByExternalKey(UUID externalKey);
 
+    /**
+     * Finds the instance of the {@link User}with the specified OauthKey.
+     * @param oauthKey passed on to retrieve the specified {@link User}
+     * @return the specified {@link User}
+     */
     Optional<User> findByOauthKey(String oauthKey);
 
 }

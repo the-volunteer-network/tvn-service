@@ -17,6 +17,10 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+
+/**
+ * Encapsulates the property of the {@link Opportunity} of this service.
+ */
 @Entity
 public class Opportunity {
 
@@ -62,71 +66,125 @@ public class Opportunity {
   @JoinColumn(name = "organization_id", nullable = false, updatable = false)
   @JsonIgnore
   private Organization organization;
-
+  /**
+   *
+   * @return the id of the specified {@link User}
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
-
+  /**
+   * @return @return the ExternalKey of the specified {@link User}
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
-
+  /**
+   *
+   * @return the name of the specified {@link User}.
+   */
   @NonNull
   public String getName() {
     return name;
   }
-
+  /**
+   * Sets the name of this user specific to {@code name}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getTitle() {
     return title;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param title
+   */
   public void setTitle(@NonNull String title) {
     this.title = title;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getNeededSkill() {
     return neededSkill;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param neededSkill
+   */
   public void setNeededSkill(@NonNull String neededSkill) {
     this.neededSkill = neededSkill;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param description
+   */
   public void setDescription(@NonNull String description) {
     this.description = description;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public Date getCalendar() {
     return calendar;
   }
 
+  /**
+   *
+   * @return
+   */
   public int getAvailablePosition() {
     return availablePosition;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param availablePosition
+   */
   public void setAvailablePosition(int availablePosition) {
     this.availablePosition = availablePosition;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public Organization getOrganization() {
     return organization;
   }
 
+  /**
+   * Sets the location of the specified {@link User specific to {@code location}}
+   * @param organization
+   */
   public void setOrganization(@NonNull Organization organization) {
     this.organization = organization;
   }
