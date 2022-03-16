@@ -255,6 +255,8 @@ public class User {
     return favorites;
   }
 
+  public Set<Organization>
+
   @Override
   public int hashCode() {
     return Objects.hash(getId());

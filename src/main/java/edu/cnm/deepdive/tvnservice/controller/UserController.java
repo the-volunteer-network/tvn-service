@@ -3,6 +3,7 @@ package edu.cnm.deepdive.tvnservice.controller;
 import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import edu.cnm.deepdive.tvnservice.service.AbstractUserService;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
@@ -68,7 +69,32 @@ public class UserController {
         .collect(Collectors.toList());
   }
 
-  // TODO add current user to volunteer for organization
-  // Todo gets a list of organizations I am a  volunteer for
+  // TODO add/remove current user to volunteer for organization
+  @GetMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public boolean isVolunteer(@PathVariable UUID organizationId) {
+    return userService
+        .getVolunteer(organizationId, userService.getCurrentUser())
+        .orElseThrow();
+  }
   // todo mark a volunteer for an organization (cf: 3 above methods)
+  @PutMapping(value = "/me/volunteers/{organizationId}")
+  public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
+    return userService
+        .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
+        .orElseThrow();
+  }
+
+  // Todo gets a list of organizations I am a  volunteer for
+  @GetMapping(value = "/me/volunteers")
+  public Iterable<Organization> getVolunteers () {
+    return userService
+        .getCurrentUser()
+        .getFavorites()
+        .stream()
+        .stream()
+        .peek((org) -> org.setVolunteer(true))
+        .collect(Collectors.toList());
+  }
+
+
 }
