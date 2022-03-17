@@ -2,11 +2,16 @@ package edu.cnm.deepdive.tvnservice.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,15 +23,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+
+/**
+ * Encapsulates the property of the {@link Opportunity} of this service.
+ */
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
+@JsonInclude(Include.NON_NULL)
 public class Organization {
 
 
@@ -43,15 +58,21 @@ public class Organization {
   private UUID externalKey;
 
   @NonNull
-  @Column(nullable = false, updatable = false, unique = true)
+  @Column(nullable = false, unique = true)
+  @NotNull
+  @NotBlank
   private String name;
 
   @NonNull
   @Column(nullable = false)
+  @NotNull
+  @NotBlank
   private String about;
 
   @NonNull
   @Column(nullable = false)
+  @NotNull
+  @NotBlank
   private String mission;
 
   @NonNull
@@ -62,74 +83,205 @@ public class Organization {
   private Date created;
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "owner_id", nullable = false)
   private User owner;
 
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "organizations")
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "organization_volunteer",
+      joinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
+      inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
+  )
   @OrderBy("name ASC")
-  private final List<User> volunteers = new LinkedList<>();
+  @JsonIgnore
+  private final Set<User> volunteers = new LinkedHashSet<>();
 
 
   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favorites")
   @OrderBy("name ASC")
-  private final List<User> favoritingUsers = new LinkedList<>();
+  @JsonIgnore
+  private final Set<User> favoritingUsers = new LinkedHashSet<>();
 
+  @NonNull
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("name ASC")
+  @JsonIgnore
+  private final List<Opportunity> opportunities = new LinkedList<>();
 
+  @Transient
+  private boolean favorite;
+
+  @Transient
+  private boolean volunteer;
+
+  /**
+   *
+   * @return the id of the specified {@link User}
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
 
+  /**
+   * @return @return the ExternalKey of the specified {@link User}
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
-
+  /**
+   *
+   * @return the name of the specified {@link User}.
+   */
   @NonNull
   public String getName() {
     return name;
   }
-
+  /**
+   * Sets the name of {@link User} specific to {@code name}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
+  /**
+   * Retrieves the {@code about} of the specified {@link User}
+   * @return
+   */
   @NonNull
   public String getAbout() {
     return about;
   }
 
+  /**
+   * Sets the name of this {@link User} specific to {@code name}
+   */
   public void setAbout(@NonNull String about) {
     this.about = about;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
   public String getMission() {
     return mission;
   }
 
+  /**
+   * Sets the name of this {@link User} specific to {@code name}
+   */
   public void setMission(@NonNull String mission) {
     this.mission = mission;
   }
-
+  /**
+   *
+   * @return the date of creation of this specified {@link User}
+   */
   @NonNull
   public Date getCreated() {
     return created;
   }
 
+  /**
+   * Retrieves the {@code owner} the specified {@link User}
+   * @return
+   */
   public User getOwner() {
     return owner;
   }
 
+  /**
+   * Sets the {@code owner} of the specified {@link User}
+   * @param owner
+   */
   public void setOwner(User owner) {
     this.owner = owner;
   }
 
-  public List<User> getVolunteers() {
+  /**
+   * Retrieves the specified {@code volunteers}  of the specified {@link Organization}
+   * @return
+   */
+  public Set<User> getVolunteers() {
     return volunteers;
   }
-  public List<User> getFavoritingUsers() {
+
+  /**
+   * Sets the specified {@code favorite} relative to the specific {@link Organization} &amp; {@link User}
+   * @return
+   */
+  public Set<User> getFavoritingUsers() {
     return favoritingUsers;
   }
+
+  /**
+   *
+   * @return
+   */
+  @NonNull
+  public List<Opportunity> getOpportunities() {
+    return opportunities;
+  }
+
+  /**
+   * Performs a check to see if this specific instance is a {@code favorite}
+   * @return
+   */
+  public boolean isFavorite() {
+    return favorite;
+  }
+
+  /**
+   * Sets this instance as a {@code favorite}
+   * @param favorite
+   */
+  public void setFavorite(boolean favorite) {
+    this.favorite = favorite;
+  }
+
+  /**
+   * Performs a check to see if this specific instance is a {@code volunteer}
+   * @return
+   */
+  public boolean isVolunteer() {
+    return volunteer;
+  }
+
+  /**
+   * Sets this current instance as a {@code volunteer}
+   * @param volunteer
+   */
+  public void setVolunteer(boolean volunteer) {
+    this.volunteer = volunteer;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean eq;
+    if (this == obj) {
+      eq = true;
+    } else {
+      //noinspection ConstantConditions
+      eq = (obj instanceof Organization
+          && getId() != null
+          && getId().equals(((Organization) obj).getId()));
+    }
+    return eq;
+  }
+
+  @PrePersist
+  private void setAdditionalFields() {
+    externalKey = UUID.randomUUID();
+  }
+
+
 }

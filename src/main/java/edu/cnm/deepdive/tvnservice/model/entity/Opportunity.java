@@ -12,11 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+
+/**
+ * Encapsulates the property of the {@link Opportunity} of this service.
+ */
 @Entity
 public class Opportunity {
 
@@ -34,12 +41,12 @@ public class Opportunity {
 
   @NonNull
   @Column(nullable = false, unique = true)
+  @NotNull
+  @NotBlank
   private String name;
 
   @NonNull
   private String title;
-
-
 
   @NonNull
   private String neededSkill;
@@ -49,85 +56,128 @@ public class Opportunity {
 
   @NonNull
   @CreationTimestamp
-  @Temporal(value= TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(updatable = false, nullable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Date calendar;
+  private Date created;
 
-  @NonNull
-  private int availablePosition;
+
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "organization_id", nullable = false, updatable = false)
   @JsonIgnore
   private Organization organization;
-
+  /**
+   * Retrieves the id of the specified {@link User}
+   * @return
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
-
+  /**
+   * Retrieves the {@code externalKey} of the specified {@link User}
+   * @return @return
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
-
+  /**
+   * Retrieves {@code name} of the specified {@link User}.
+   * @return
+   */
   @NonNull
   public String getName() {
     return name;
   }
-
+  /**
+   * Sets the {@code name} of this user specific to {@link  User}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
+  /**
+   * Retrieves the specified {@code title}.
+   * @return
+   */
   @NonNull
   public String getTitle() {
     return title;
   }
 
+  /**
+   * Sets the title of the specified {@link Opportunity} specific to {@code title}
+   * @param title
+   */
   public void setTitle(@NonNull String title) {
     this.title = title;
   }
 
+  /**
+   * Retrieves the specified {@code neededSkill}.
+   * @return
+   */
   @NonNull
   public String getNeededSkill() {
     return neededSkill;
   }
 
+  /**
+   * Sets the location of the specified {{@code neededSkill}
+   * @param neededSkill
+   */
   public void setNeededSkill(@NonNull String neededSkill) {
     this.neededSkill = neededSkill;
   }
 
+  /**
+   * Retrieves the specified {@code description} specific to {@link Opportunity}
+   * @return
+   */
   @NonNull
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets the specified {@code description} specific to {@link Opportunity}
+   * @param description
+   */
   public void setDescription(@NonNull String description) {
     this.description = description;
   }
 
+  /**
+   *
+   * @return
+   */
   @NonNull
-  public Date getCalendar() {
-    return calendar;
+  public Date getCreated() {
+    return created;
   }
 
-  public int getAvailablePosition() {
-    return availablePosition;
-  }
-
-  public void setAvailablePosition(int availablePosition) {
-    this.availablePosition = availablePosition;
-  }
-
+  /**
+   * Retrieves the specified {@link Organization} specific to {@link Opportunity}
+   * @return
+   */
   @NonNull
   public Organization getOrganization() {
     return organization;
   }
 
+  /**
+   * Sets the specified {@link Organization} specific to {@link Opportunity}
+   * @param organization
+   */
   public void setOrganization(@NonNull Organization organization) {
     this.organization = organization;
+  }
+
+  @PrePersist
+  private void setAdditionalFields() {
+    externalKey = UUID.randomUUID();
   }
 }

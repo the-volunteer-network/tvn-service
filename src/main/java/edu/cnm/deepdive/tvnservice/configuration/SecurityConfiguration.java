@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.tvnservice.configuration;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +20,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
-
+/**
+ * Configures the Oauth2 based security for this service.
+ */
 @Configuration
 @EnableWebSecurity
 @Profile("service")
@@ -27,13 +30,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final Converter<Jwt, ? extends AbstractAuthenticationToken> converter;
 
-
+  @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
   private String issuerUri;
 
-
+  @Value("${spring.security.oauth2.resourceserver.jwt.client-id}")
   private String clientId;
 
-
+  /**
+   * Initializes this instance with the injected converter.
+   * @param converter
+   */
   public SecurityConfiguration(
       Converter<Jwt, ? extends AbstractAuthenticationToken> converter) {
     this.converter = converter;
@@ -56,6 +62,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .jwtAuthenticationConverter(converter);
   }
 
+  /**
+   * Constructs a decoder capable of validation our decoded bearer token
+   * @return validating decoder
+   */
   public JwtDecoder jwtDecoder() {
     NimbusJwtDecoder decoder = JwtDecoders.fromIssuerLocation(issuerUri);
     OAuth2TokenValidator<Jwt> audienceValidator =

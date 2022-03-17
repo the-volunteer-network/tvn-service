@@ -7,8 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -28,6 +32,9 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * Encapsulates the property of the user of this service.
+ */
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
@@ -76,18 +83,18 @@ public class User {
   @Column(unique = true)
   private String phoneNumber;
 
-  @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "organization_volunteer",
-      joinColumns = @JoinColumn(name = "volunteer_id", nullable = false, updatable = false),
-      inverseJoinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
-      uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "volunteer_id"})
-  )
+  @NonNull
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<Organization> organizations = new LinkedList<>();
+  private final Set<Organization> ownedOrganizations = new LinkedHashSet<>();
 
-  @ManyToMany(fetch = FetchType.LAZY,
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "volunteers")
+  @OrderBy("name ASC")
+  @JsonIgnore
+  private final Set<Organization> organizations = new LinkedHashSet<>();
+
+  @ManyToMany(fetch = FetchType.EAGER,
       cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "user_favorite",
       joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
@@ -96,82 +103,179 @@ public class User {
   )
   @OrderBy("name ASC")
   @JsonIgnore
-  private final List<Organization> favorites = new LinkedList<>();
+  private final Set<Organization> favorites = new LinkedHashSet<>();
 
+  /**
+   * Returns the id of the specified {@link User}
+   * @return
+   */
   @NonNull
   public UUID getId() {
     return id;
   }
 
+  /**
+   * Returns the ExternalKey of the specified {@link User}
+   * @return
+   */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
 
+  /**
+   * Returns the Oauth Key of this specified {@link User}
+   * @return
+   */
   @NonNull
   public String getOauthKey() {
     return oauthKey;
   }
 
+  /**
+   * Sets the oAuth key of this specified {@link User}
+   * @param oauthKey
+   */
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
   }
 
+  /**
+   * the display name of the specified {@link User}
+   * @return
+   */
   @NonNull
   public String getDisplayName() {
     return displayName;
   }
 
+  /**
+   * Sets the display name of the specified {@link User} specific to {@code displayName}
+   * @param displayName
+   */
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
   }
 
+  /**
+   * Returns the name of the specified {@link User}
+   * @return .
+   */
   @NonNull
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets the name of the specified {@link User} specific to {@code name}
+   */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
+
+  /**
+   * Returns the location of a specified {@link User}.
+   * @return
+   */
   @NonNull
   public String getLocation() {
     return location;
   }
 
+  /**
+   * Sets the location of the specified {@link User} specific to {@code location}
+   * @param location
+   */
   public void setLocation(@NonNull String location) {
     this.location = location;
   }
 
+  /**
+   * Returns the date of creation of this specified instance of {@link User}
+   * @return
+   */
   @NonNull
   public Date getCreated() {
     return created;
   }
 
+  /**
+   * Returns the email of the specified {@link User}
+   * @return
+   */
   @NonNull
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Sets the email of the specified {@link User} specific to {@code name}
+   * @param email
+   */
   public void setEmail(@NonNull String email) {
     this.email = email;
   }
 
+  /**
+   * Retrieves the phone number of the specified {@link User}
+   @return
+   */
   public String getPhoneNumber() {
     return phoneNumber;
   }
 
+  /**
+   * Sets the phone number of the specified {@link User} specific to {@code name}
+   * @param phoneNumber
+   */
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
-  public List<Organization> getOrganizations() {
+  /**
+   * Sets the specified {@code owner} as owner of the specified {@link Organization}
+   * @return
+   */
+  @NonNull
+  public Set<Organization> getOwnedOrganizations() {
+    return ownedOrganizations;
+  }
+
+  /**
+   * Sets this specific instance of {@link Organization}
+   @return
+   */
+  public Set<Organization> getOrganizations() {
     return organizations;
   }
 
-  public List<Organization> getFavorites() {
+  /**
+   * Sets this specific instance of {@link Organization} as a {@code favorite}
+   @return
+   */
+  public Set<Organization> getFavorites() {
     return favorites;
+  }
+
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean eq;
+    if (this == obj) {
+      eq = true;
+    } else {
+      //noinspection ConstantConditions
+      eq = (obj instanceof User
+          && getId() != null
+          && getId().equals(((User) obj).getId()));
+    }
+    return eq;
   }
 
   @PrePersist

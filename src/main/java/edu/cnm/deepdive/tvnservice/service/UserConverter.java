@@ -9,11 +9,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+/**
+ * Performs Object-to-String and String-to-Object conversions
+ * between model data objects and a String representation of
+ * those objects that is suitable for rendering.
+ *
+ */
 @Service
 public class UserConverter implements Converter<Jwt, UsernamePasswordAuthenticationToken> {
 
   private final AbstractUserService service;
 
+  /**
+   * Constructor for the {@link AbstractUserService} class
+   * initializes and create objects from included parameter.
+   * @param service
+   */
   public UserConverter(AbstractUserService service) {
     this.service = service;
   }
