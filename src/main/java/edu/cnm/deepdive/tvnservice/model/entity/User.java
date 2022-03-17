@@ -255,7 +255,6 @@ public class User {
     return favorites;
   }
 
-  public Set<Organization>
 
   @Override
   public int hashCode() {

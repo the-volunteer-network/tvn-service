@@ -10,6 +10,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
+
+/**
+ * Provides business functionalities for the {@link Organization} entity to interact with the application.
+ */
 @Service
 public class OrganizationService implements AbstractOrganizationService {
 

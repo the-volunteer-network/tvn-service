@@ -50,29 +50,31 @@ public interface AbstractOrganizationService {
   /**
    * Retrieves the specified name from the database
    * @param organizationId passed to retrieve the specified name from the Database
-   * @return
+   * @return the specified name
    */
   Optional<String> getName(UUID organizationId);
 
   /**
-   *
-   * @param organizationId
-   * @param name
-   * @param owner
-   * @return
+   * Modify the specified name if the value is present
+   * @param organizationId passed on to modify this instance.
+   * @param name passed on to modify this instance.
+   * @param owner passed on to modify this instance.
+   * @return the modified name;
    */
   Optional<String> modifyName(UUID organizationId, String name, User owner);
 
   /**
-   * @param user
-   * @return
+   * Retrieves all the {@link Organization}
+   * @param user passed on to retrieve all these instances
+   * @return a List of all the specified {@link Organization}
    */
   Iterable<Organization> getAll(User user);
 
   /**
-   * @param user
-   * @param fragment
-   * @return
+   * Searches and Retrieves the specified {@link Organization}
+   * @param user passed on to search and retrieve this instance.
+   * @param fragment String passed on to search for the instance.
+   * @return the specified {@link Organization}
    */
   Iterable<Organization> searchByName(String fragment, User user);
 

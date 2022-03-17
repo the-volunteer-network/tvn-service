@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.OrganizationService;
 
 /**
- * Controller for the {@link Organization} entity class.
+ * Handles REST requests for operation on individual instances and collections of {@link  Organization} entity.
  */
 @RestController
 @RequestMapping("/organizations")

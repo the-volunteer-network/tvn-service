@@ -3,10 +3,10 @@ package edu.cnm.deepdive.tvnservice.service;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
+import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 
 /**
- * high-level operations available to be performed on
- * Method to be implemented in the {@link UserService}
+ * high-level operations available to be performed on the {@link UserService}
  */
 public interface AbstractUserService {
 
@@ -23,14 +23,13 @@ public interface AbstractUserService {
       String familyName);
 
   /**
-   *
    * @return the instance of this current {@link User}
    */
   User getCurrentUser();
 
   /**
-   *  Update the {@link User} in the Database
-   * @param received passed to update this instance in  the Database
+   * Update the specified {@link User} in the Database
+   * @param received passed to update this instance in the Database
    * @return the updated {@link User}
    */
   User updateUser(User received);
@@ -42,9 +41,24 @@ public interface AbstractUserService {
    * @param favorite
    * @return
    */
+
+  /**
+   * Set a favorite instance of {@link Organization }
+   * @param externalKey passed on to create this favorite instance
+   * @param user passed on to create this favorite instance
+   * @param favorite passed on to create this favorite instance
+   * @return  a boolean instance of this favorite
+   */
   Optional<Boolean> setFavorite(UUID externalKey, User user, boolean favorite) ;
 
+  /**
+   *  Retrieves a favorite instance of an {@link Organization} from the database/
+   * @param externalKey passed on to retrieve this instance
+   * @param user  passed on to retrieve this instance
+   * @return  an Optional favorite from the database
+   */
   Optional<Boolean> getFavorite(UUID externalKey, User user);
+
 
   Optional<Boolean> setVolunteer(UUID organizationExternalKey, User user, boolean volunteer);
 

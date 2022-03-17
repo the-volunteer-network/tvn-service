@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Provides business functionalities for the {@link User} entity to interact with the application.
+ */
 @Service
 public class UserService implements AbstractUserService {
 

@@ -6,9 +6,11 @@ import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.UUID;
 
-/**
- *
+
+ /**
+ * Provides business functionalities for the {@link Opportunity} entity to interact with the application.
  */
+
 public class OpportunityService implements AbstractOpportunityService{
 
   private final OpportunityRepository opportunityRepository;
