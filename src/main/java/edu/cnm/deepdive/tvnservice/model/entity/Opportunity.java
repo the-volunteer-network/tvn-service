@@ -67,37 +67,38 @@ public class Opportunity {
   @JsonIgnore
   private Organization organization;
   /**
-   *
-   * @return the id of the specified {@link User}
+   * Retrieves the id of the specified {@link User}
+   * @return
    */
   @NonNull
   public UUID getId() {
     return id;
   }
   /**
-   * @return @return the ExternalKey of the specified {@link User}
+   * Retrieves the {@code externalKey} of the specified {@link User}
+   * @return @return
    */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
   /**
-   *
-   * @return the name of the specified {@link User}.
+   * Retrieves {@code name} of the specified {@link User}.
+   * @return
    */
   @NonNull
   public String getName() {
     return name;
   }
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the {@code name} of this user specific to {@code name}
    */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
   /**
-   *
+   * Retrieves the specified  {@code title}.
    * @return
    */
   @NonNull
@@ -106,7 +107,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the title of the specified {@link User} specific to {@code title}
    * @param title
    */
   public void setTitle(@NonNull String title) {
@@ -114,7 +115,7 @@ public class Opportunity {
   }
 
   /**
-   *
+   * Retrieves the specified {@code neededSkill}.
    * @return
    */
   @NonNull
@@ -131,7 +132,7 @@ public class Opportunity {
   }
 
   /**
-   *
+   * Retrieves the specified description
    * @return
    */
   @NonNull
@@ -140,7 +141,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the specified {@code description}
    * @param description
    */
   public void setDescription(@NonNull String description) {
@@ -149,7 +150,7 @@ public class Opportunity {
 
   /**
    *
-   * @return
+   * @return the specified {@code Calendar}.
    */
   @NonNull
   public Date getCalendar() {
@@ -158,14 +159,14 @@ public class Opportunity {
 
   /**
    *
-   * @return
+   * @return the specified {@code available position).
    */
   public int getAvailablePosition() {
     return availablePosition;
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the specified {@code availablePosition}
    * @param availablePosition
    */
   public void setAvailablePosition(int availablePosition) {
@@ -173,7 +174,7 @@ public class Opportunity {
   }
 
   /**
-   *
+   * Retrieves the specified {@link Organization}
    * @return
    */
   @NonNull
@@ -182,7 +183,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the specified {@link Organization}
    * @param organization
    */
   public void setOrganization(@NonNull Organization organization) {

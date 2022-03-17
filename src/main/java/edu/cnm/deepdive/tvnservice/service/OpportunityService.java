@@ -17,9 +17,10 @@ public class OpportunityService implements AbstractOpportunityService{
   private final OrganizationRepository organizationRepository;
 
   /**
-   *
-   * @param repository
-   * @param organizationRepository
+   * Constructor for the {@link OpportunityService} class
+   * initializes and creates objects from included parameters
+   * @param repository parameterized argument to this constructor
+   * @param organizationRepository parameterized argument to this constructor
    */
   public OpportunityService(OpportunityRepository repository,
       OrganizationRepository organizationRepository) {

@@ -27,7 +27,11 @@ public class OrganizationService implements AbstractOrganizationService {
     return org;
   };
 
-
+  /**
+   * Constructor for the {@link OrganizationService} class
+   * initializes and create objects from included parameter.
+   * @param repository parameterized argument to this constructor.
+   */
   public OrganizationService(
       OrganizationRepository repository) {
     this.repository = repository;
