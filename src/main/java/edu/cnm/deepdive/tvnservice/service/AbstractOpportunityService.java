@@ -14,7 +14,8 @@ public interface AbstractOpportunityService {
   // TODO Need to be able to get information by the external key
 
   /**
-   *  Adds an {@link Opportunity} to the Database.
+   * Adds an {@link Opportunity} to the Database.
+   *
    * @param opportunity
    * @param externalOrganizationKey
    * @param owner
@@ -24,23 +25,23 @@ public interface AbstractOpportunityService {
 
   /**
    * Deletes this instance of {@link Opportunity} from the database.
+   *
    * @param externalKey
    * @param owner
    */
-  void deleteOpportunity(UUID externalKey, User owner);
+  void deleteOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey, User owner);
 
   /**
-   *  Modify the specified instance of {@link Opportunity} in the database.
+   * Modify the specified instance of {@link Opportunity} in the database.
+   *
    * @param externalKey
-   * @param name
-   * @param title
-   * @param neededSkill
-   * @param description
-   * @param availablePosition
    * @return the modified instance of the specified {@link Opportunity}
    */
-  Opportunity modifyOpportunity(UUID externalKey, Opportunity opportunity, User owner);
+  Optional<Opportunity> modifyOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey,
+      Opportunity opportunity, User owner);
 
-  Optional<Opportunity> getOpportunity(UUID organizationId, UUID opportunityId, User user);
+  Optional<Opportunity> getOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey,
+      User user);
 
+  Iterable<Opportunity> getAllOpportunities(UUID organizationExternalKey);
 }

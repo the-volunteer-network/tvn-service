@@ -12,8 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -38,12 +41,12 @@ public class Opportunity {
 
   @NonNull
   @Column(nullable = false, unique = true)
+  @NotNull
+  @NotBlank
   private String name;
 
   @NonNull
   private String title;
-
-
 
   @NonNull
   private String neededSkill;
@@ -53,13 +56,12 @@ public class Opportunity {
 
   @NonNull
   @CreationTimestamp
-  @Temporal(value= TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(updatable = false, nullable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Date calendar;
+  private Date created;
 
-  @NonNull
-  private int availablePosition;
+
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -150,27 +152,11 @@ public class Opportunity {
 
   /**
    *
-   * @return the specified {@code Calendar}.
+   * @return
    */
   @NonNull
-  public Date getCalendar() {
-    return calendar;
-  }
-
-  /**
-   *
-   * @return the specified {@code available position) specific to {@link Opportunity}
-   */
-  public int getAvailablePosition() {
-    return availablePosition;
-  }
-
-  /**
-   * Sets the specified {@code availablePosition} specific to {@link Opportunity}
-   * @param availablePosition
-   */
-  public void setAvailablePosition(int availablePosition) {
-    this.availablePosition = availablePosition;
+  public Date getCreated() {
+    return created;
   }
 
   /**
@@ -188,5 +174,10 @@ public class Opportunity {
    */
   public void setOrganization(@NonNull Organization organization) {
     this.organization = organization;
+  }
+
+  @PrePersist
+  private void setAdditionalFields() {
+    externalKey = UUID.randomUUID();
   }
 }

@@ -23,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
@@ -87,7 +88,7 @@ public class Organization {
   private User owner;
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "user_favorite",
+  @JoinTable(name = "organization_volunteer",
       joinColumns = @JoinColumn(name = "organization_id", nullable = false, updatable = false),
       inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
       uniqueConstraints = @UniqueConstraint(columnNames = {"organization_id", "user_id"})
@@ -101,6 +102,12 @@ public class Organization {
   @OrderBy("name ASC")
   @JsonIgnore
   private final Set<User> favoritingUsers = new LinkedHashSet<>();
+
+  @NonNull
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OrderBy("name ASC")
+  @JsonIgnore
+  private final List<Opportunity> opportunities = new LinkedList<>();
 
   @Transient
   private boolean favorite;
@@ -212,6 +219,15 @@ public class Organization {
   }
 
   /**
+   *
+   * @return
+   */
+  @NonNull
+  public List<Opportunity> getOpportunities() {
+    return opportunities;
+  }
+
+  /**
    * Performs a check to see if this specific instance is a {@code favorite}
    * @return
    */
@@ -267,7 +283,5 @@ public class Organization {
     externalKey = UUID.randomUUID();
   }
 
-//  public boolean isVolunteer() {
-//    return volunteer;
-//  }
+
 }

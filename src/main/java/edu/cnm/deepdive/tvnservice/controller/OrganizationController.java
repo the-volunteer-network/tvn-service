@@ -161,7 +161,7 @@ public class OrganizationController {
   }
 
   /**
-   *  Retrieve all of the {@link Organization} in the Database.
+   *  Retrieves all of the {@link Organization} in the Database.
    * @return all of the  {@link Organization}
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -170,7 +170,7 @@ public class OrganizationController {
   }
 
   /**
-   *  Search &amp; retrieve a specified {@link Organization}
+   *  Search &amp; retrieves a specified {@link Organization}
    * @param fragment part of the String passed in the search to retrieve a specified {@link Organization}
    * @return
    */
