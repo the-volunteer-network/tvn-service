@@ -48,8 +48,13 @@ public class OpportunityService implements AbstractOpportunityService{
   public void deleteOpportunity(UUID organizationExternalKey,UUID opportunityExternalKey, User owner) {
     organizationRepository
         .findByExternalKeyAndOwner(organizationExternalKey, owner)
-        .flatMap((org) -> opportunityRepository.findByExternalKeyAndOrganization(opportunityExternalKey, org))
-        .ifPresent(opportunityRepository::delete);
+        .ifPresent((org) -> opportunityRepository
+            .findByExternalKeyAndOrganization(opportunityExternalKey, org)
+            .ifPresent((opp) -> {
+              org.getOpportunities().remove(opp);
+              organizationRepository.save(org);
+            })
+        );
   }
 
    @Override
