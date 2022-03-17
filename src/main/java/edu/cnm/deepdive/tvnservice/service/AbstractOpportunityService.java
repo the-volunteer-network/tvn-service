@@ -2,6 +2,7 @@ package edu.cnm.deepdive.tvnservice.service;
 
 import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -38,6 +39,8 @@ public interface AbstractOpportunityService {
    * @param availablePosition passed to modify this instance in the Databasese
    * @return this modified specified {@link Opportunity}
    */
-  Opportunity modifyOpportunity(UUID externalKey, String name, String title, String neededSkill, String description, int availablePosition);
+  Opportunity modifyOpportunity(UUID externalKey, Opportunity opportunity, User owner);
+
+  Optional<Opportunity> getOpportunity(UUID organizationId, UUID opportunityId, User user);
 
 }
