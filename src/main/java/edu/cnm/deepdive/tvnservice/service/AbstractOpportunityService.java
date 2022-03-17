@@ -15,29 +15,29 @@ public interface AbstractOpportunityService {
 
   /**
    *  Adds an {@link Opportunity} to the Database.
-   * @param opportunity passed to be added to the Database
-   * @param externalOrganizationKey passed to be added to the Database
-   * @param owner passed to be added to the Database
+   * @param opportunity
+   * @param externalOrganizationKey
+   * @param owner
    * @return
    */
   Opportunity addOpportunity(Opportunity opportunity, UUID externalOrganizationKey, User owner);
 
   /**
    * Deletes this instance of {@link Opportunity} from the database.
-   * @param externalKey passed to be added to the database
-   * @param owner passed to be added to the database
+   * @param externalKey
+   * @param owner
    */
   void deleteOpportunity(UUID externalKey, User owner);
 
   /**
-   *  Modify the specified {@link Opportunity}
-   * @param externalKey passed to modify this instance in the Database
-   * @param name passed to modify this instance in the Database
-   * @param title passed to modify this instance in the Database
-   * @param neededSkill passed to modify this instance in the Database
-   * @param description passed to modify this instance in the Database
-   * @param availablePosition passed to modify this instance in the Databasese
-   * @return this modified specified {@link Opportunity}
+   *  Modify the specified instance of {@link Opportunity} in the database.
+   * @param externalKey
+   * @param name
+   * @param title
+   * @param neededSkill
+   * @param description
+   * @param availablePosition
+   * @return the modified instance of the specified {@link Opportunity}
    */
   Opportunity modifyOpportunity(UUID externalKey, Opportunity opportunity, User owner);
 

@@ -21,8 +21,8 @@ public class UserService implements AbstractUserService {
   /**
    * Constructor for the {@link UserService} class
    * initializes and create objects from included parameters.
-   * @param userRepository parameterized arguments passed to this constructor.
-   * @param organizationRepository parameterized arguments passed to this constructor.
+   * @param userRepository
+   * @param organizationRepository
    */
   @Autowired
   public UserService(UserRepository userRepository,

@@ -133,14 +133,14 @@ public class Organization {
     return name;
   }
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the name of {@link User} specific to {@code name}
    */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
   /**
-   *
+   * Retrieves the {@code about} of the specified {@link User}
    * @return
    */
   @NonNull
@@ -149,7 +149,7 @@ public class Organization {
   }
 
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the name of this {@link User} specific to {@code name}
    */
   public void setAbout(@NonNull String about) {
     this.about = about;
@@ -165,7 +165,7 @@ public class Organization {
   }
 
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the name of this {@link User} specific to {@code name}
    */
   public void setMission(@NonNull String mission) {
     this.mission = mission;
@@ -180,7 +180,7 @@ public class Organization {
   }
 
   /**
-   *
+   * Retrieves the {@code owner} the specified {@link User}
    * @return
    */
   public User getOwner() {
@@ -188,7 +188,7 @@ public class Organization {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the {@code owner} of the specified {@link User}
    * @param owner
    */
   public void setOwner(User owner) {
@@ -196,7 +196,7 @@ public class Organization {
   }
 
   /**
-   *
+   * Retrieves the specified {@code volunteers}  of the specified {@link Organization}
    * @return
    */
   public Set<User> getVolunteers() {
@@ -204,7 +204,7 @@ public class Organization {
   }
 
   /**
-   *
+   * Sets the specified {@code favorite} relative to the specific {@link Organization} &amp; {@link User}
    * @return
    */
   public Set<User> getFavoritingUsers() {
@@ -212,7 +212,7 @@ public class Organization {
   }
 
   /**
-   *
+   * Performs a check to see if this specific instance is a {@code favorite}
    * @return
    */
   public boolean isFavorite() {
@@ -220,17 +220,25 @@ public class Organization {
   }
 
   /**
-   *
+   * Sets this instance as a {@code favorite}
    * @param favorite
    */
   public void setFavorite(boolean favorite) {
     this.favorite = favorite;
   }
 
+  /**
+   * Performs a check to see if this specific instance is a {@code volunteer}
+   * @return
+   */
   public boolean isVolunteer() {
     return volunteer;
   }
 
+  /**
+   * Sets this current instance as a {@code volunteer}
+   * @param volunteer
+   */
   public void setVolunteer(boolean volunteer) {
     this.volunteer = volunteer;
   }

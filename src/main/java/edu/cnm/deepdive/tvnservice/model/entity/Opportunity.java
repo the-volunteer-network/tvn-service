@@ -91,14 +91,14 @@ public class Opportunity {
     return name;
   }
   /**
-   * Sets the {@code name} of this user specific to {@code name}
+   * Sets the {@code name} of this user specific to {@link  User}
    */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
   /**
-   * Retrieves the specified  {@code title}.
+   * Retrieves the specified {@code title}.
    * @return
    */
   @NonNull
@@ -107,7 +107,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the title of the specified {@link User} specific to {@code title}
+   * Sets the title of the specified {@link Opportunity} specific to {@code title}
    * @param title
    */
   public void setTitle(@NonNull String title) {
@@ -124,7 +124,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the location of the specified {{@code neededSkill}
    * @param neededSkill
    */
   public void setNeededSkill(@NonNull String neededSkill) {
@@ -132,7 +132,7 @@ public class Opportunity {
   }
 
   /**
-   * Retrieves the specified description
+   * Retrieves the specified {@code description} specific to {@link Opportunity}
    * @return
    */
   @NonNull
@@ -141,7 +141,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the specified {@code description}
+   * Sets the specified {@code description} specific to {@link Opportunity}
    * @param description
    */
   public void setDescription(@NonNull String description) {
@@ -159,14 +159,14 @@ public class Opportunity {
 
   /**
    *
-   * @return the specified {@code available position).
+   * @return the specified {@code available position) specific to {@link Opportunity}
    */
   public int getAvailablePosition() {
     return availablePosition;
   }
 
   /**
-   * Sets the specified {@code availablePosition}
+   * Sets the specified {@code availablePosition} specific to {@link Opportunity}
    * @param availablePosition
    */
   public void setAvailablePosition(int availablePosition) {
@@ -174,7 +174,7 @@ public class Opportunity {
   }
 
   /**
-   * Retrieves the specified {@link Organization}
+   * Retrieves the specified {@link Organization} specific to {@link Opportunity}
    * @return
    */
   @NonNull
@@ -183,7 +183,7 @@ public class Opportunity {
   }
 
   /**
-   * Sets the specified {@link Organization}
+   * Sets the specified {@link Organization} specific to {@link Opportunity}
    * @param organization
    */
   public void setOrganization(@NonNull Organization organization) {

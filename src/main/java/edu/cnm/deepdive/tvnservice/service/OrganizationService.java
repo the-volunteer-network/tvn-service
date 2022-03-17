@@ -30,7 +30,7 @@ public class OrganizationService implements AbstractOrganizationService {
   /**
    * Constructor for the {@link OrganizationService} class
    * initializes and create objects from included parameter.
-   * @param repository parameterized argument to this constructor.
+   * @param repository 
    */
   public OrganizationService(
       OrganizationRepository repository) {

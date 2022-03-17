@@ -106,8 +106,8 @@ public class User {
   private final Set<Organization> favorites = new LinkedHashSet<>();
 
   /**
-   *
-   * @return the id of the specified {@link User}
+   * Returns the id of the specified {@link User}
+   * @return
    */
   @NonNull
   public UUID getId() {
@@ -115,7 +115,8 @@ public class User {
   }
 
   /**
-   * @return @return the ExternalKey of the specified {@link User}
+   * Returns the ExternalKey of the specified {@link User}
+   * @return
    */
   @NonNull
   public UUID getExternalKey() {
@@ -123,7 +124,8 @@ public class User {
   }
 
   /**
-   * @return the Oauth Key of this user
+   * Returns the Oauth Key of this specified {@link User}
+   * @return
    */
   @NonNull
   public String getOauthKey() {
@@ -131,8 +133,7 @@ public class User {
   }
 
   /**
-   * Sets the oAuth key of this user.
-   *
+   * Sets the oAuth key of this specified {@link User}
    * @param oauthKey
    */
   public void setOauthKey(@NonNull String oauthKey) {
@@ -140,8 +141,8 @@ public class User {
   }
 
   /**
-   *
-   * @return the display name of the specified {@link User}
+   * the display name of the specified {@link User}
+   * @return
    */
   @NonNull
   public String getDisplayName() {
@@ -157,7 +158,8 @@ public class User {
   }
 
   /**
-   * @return the name of the specified {@link User}.
+   * Returns the name of the specified {@link User}
+   * @return .
    */
   @NonNull
   public String getName() {
@@ -165,7 +167,7 @@ public class User {
   }
 
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the name of the specified {@link User} specific to {@code name}
    */
   public void setName(@NonNull String name) {
     this.name = name;
@@ -173,8 +175,8 @@ public class User {
 
 
   /**
-   *
-   * @return the location of a specified {@link User}.
+   * Returns the location of a specified {@link User}.
+   * @return
    */
   @NonNull
   public String getLocation() {
@@ -182,7 +184,7 @@ public class User {
   }
 
   /**
-   * Sets the location of the specified {@link User specific to {@code location}}
+   * Sets the location of the specified {@link User} specific to {@code location}
    * @param location
    */
   public void setLocation(@NonNull String location) {
@@ -190,8 +192,8 @@ public class User {
   }
 
   /**
-   *
-   * @return the date of creation of this specified {@link User}
+   * Returns the date of creation of this specified instance of {@link User}
+   * @return
    */
   @NonNull
   public Date getCreated() {
@@ -199,8 +201,8 @@ public class User {
   }
 
   /**
-   *
-   * @return the email of the specified {@link User}
+   * Returns the email of the specified {@link User}
+   * @return
    */
   @NonNull
   public String getEmail() {
@@ -208,7 +210,7 @@ public class User {
   }
 
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the email of the specified {@link User} specific to {@code name}
    * @param email
    */
   public void setEmail(@NonNull String email) {
@@ -216,14 +218,15 @@ public class User {
   }
 
   /**
-   *
-   @return the email of the specified {@link User}   */
+   * Retrieves the phone number of the specified {@link User}
+   @return
+   */
   public String getPhoneNumber() {
     return phoneNumber;
   }
 
   /**
-   * Sets the name of this user specific to {@code name}
+   * Sets the phone number of the specified {@link User} specific to {@code name}
    * @param phoneNumber
    */
   public void setPhoneNumber(String phoneNumber) {
@@ -231,7 +234,7 @@ public class User {
   }
 
   /**
-   *
+   * Sets the specified {@code owner} as owner of the specified {@link Organization}
    * @return
    */
   @NonNull
@@ -240,16 +243,16 @@ public class User {
   }
 
   /**
-   *
-   @return the email of the specified {@link User}
+   * Sets this specific instance of {@link Organization}
+   @return
    */
   public Set<Organization> getOrganizations() {
     return organizations;
   }
 
   /**
-   *
-   @return the email of the specified {@link User}
+   * Sets this specific instance of {@link Organization} as a {@code favorite}
+   @return
    */
   public Set<Organization> getFavorites() {
     return favorites;
