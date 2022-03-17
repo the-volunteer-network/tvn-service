@@ -22,8 +22,8 @@ public class UserConverter implements Converter<Jwt, UsernamePasswordAuthenticat
 
   /**
    * Constructor for the {@link AbstractUserService} class
-   * initializes and create two objects from included parameter.
-   * @param service parameterized argument passed to this constructor
+   * initializes and create objects from included parameter.
+   * @param service
    */
   public UserConverter(AbstractUserService service) {
     this.service = service;
