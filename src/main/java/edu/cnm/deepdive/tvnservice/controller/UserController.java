@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.service.UserService;
 
 /**
- * Handles REST requests for operation on individual instances and collections of {@link  User}
- * entity.
+ * Controller for the {@link User} entity class.
  */
 @RestController
 @RequestMapping("/users")
@@ -27,18 +26,15 @@ public class UserController {
   private final AbstractUserService userService;
 
   /**
-   * Initialize this instance with {@link UserService},instance used to perform the requested
-   * operations.
-   *
-   * @param userService provides access to high-level query &amp; persistence operations on {@link
-   *                    User} instances.
+   * Initialize this instance with {@link UserService},instance used to perform the requested operations.
+   * @param userService provides access to high-level query &amp; persistence operations on {@link User} instances.
    */
   public UserController(AbstractUserService userService) {
     this.userService = userService;
   }
 
   /**
-   * Retrieves the current {@link User} of the service Return current user.
+   * Return current user.
    */
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getProfile() {
@@ -46,11 +42,9 @@ public class UserController {
   }
 
   /**
-   * Retrieve an instance of favorite by the {@link Organization} id, if the instance of favorite is
-   * true.
    *
    * @param organizationId
-   * @return an instance of favorite.
+   * @return
    */
   @GetMapping(value = "/me/favorites/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean isFavorite(@PathVariable UUID organizationId) {
@@ -59,14 +53,6 @@ public class UserController {
         .orElseThrow();
   }
 
-  /**
-   * Find an organization by its id, if the instance of favorite  is true, the instance is added,
-   * otherwise it is removed.
-   *
-   * @param organizationId passed on to set an instance of favorite.
-   * @param favorite       passed on to set an instance of favorite
-   * @return this instance of favorite
-   */
   @PutMapping(value = "/me/favorites/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean setFavorite(@PathVariable UUID organizationId, @RequestBody boolean favorite) {
     return userService
@@ -74,13 +60,8 @@ public class UserController {
         .orElseThrow();
   }
 
-  /**
-   * Retrieves the specified instances of favorites
-   *
-   * @return an Iterable of favorites.
-   */
-  @GetMapping(value = "/me/favorites", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Iterable<Organization> getFavorites() {
+  @GetMapping(value = "/me/favorites",produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<Organization> getFavorites (){
     return userService
         .getCurrentUser()
         .getFavorites()
@@ -96,19 +77,24 @@ public class UserController {
         .getVolunteer(organizationId, userService.getCurrentUser())
         .orElseThrow();
   }
-
   // todo mark a volunteer for an organization (cf: 3 above methods)
   @PutMapping(value = "/me/volunteers/{organizationId}")
   public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
     return userService
+
         .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
         .orElseThrow();
   }
 
   // Todo gets a list of organizations I am a  volunteer for
   @GetMapping(value = "/me/volunteers")
-  public Iterable<Organization> getVolunteers() {
-    return new ArrayList<>(userService.getCurrentUser().getOrganizations());
+  public Iterable<Organization> getVolunteers () {
+    return (userService
+        .getCurrentUser()
+        .getOrganizations()
+        .stream()
+        .peek((org) -> org.setVolunteer(true))
+        .collect(Collectors.toList()));
   }
 
 

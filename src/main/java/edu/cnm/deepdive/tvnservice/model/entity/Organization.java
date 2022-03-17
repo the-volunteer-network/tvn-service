@@ -105,6 +105,9 @@ public class Organization {
   @Transient
   private boolean favorite;
 
+  @Transient
+  private boolean volunteer;
+
   /**
    *
    * @return the id of the specified {@link User}
@@ -224,6 +227,14 @@ public class Organization {
     this.favorite = favorite;
   }
 
+  public boolean isVolunteer() {
+    return volunteer;
+  }
+
+  public void setVolunteer(boolean volunteer) {
+    this.volunteer = volunteer;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(getId());
@@ -247,4 +258,8 @@ public class Organization {
   private void setAdditionalFields() {
     externalKey = UUID.randomUUID();
   }
+
+//  public boolean isVolunteer() {
+//    return volunteer;
+//  }
 }
