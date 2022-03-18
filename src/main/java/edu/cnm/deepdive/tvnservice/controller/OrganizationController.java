@@ -47,6 +47,7 @@ public class OrganizationController {
    * @param userService         provides access to high-level query &amp; persistence operations on
    *                            {@link User} instances.
    * @param organizationService provides persistence operations on {@link Organization}.
+   * @param mapper  provides functionality for reading and writing JSON.
    */
 
   public OrganizationController(
@@ -58,7 +59,7 @@ public class OrganizationController {
   }
 
   /**
-   * selecting and returning a specified {@link Organization}.
+   * Selects and Returns a specified {@link Organization}.
    *
    * @param organizationId a unique identifier {@link Organization} resource.
    * @return specified {@link Organization}
@@ -72,7 +73,7 @@ public class OrganizationController {
 
 
   /**
-   * add an {@link Organization} to the service.
+   * Adds an {@link Organization} to the service.
    *
    * @param organization {@link Organization} to be added to the database table.
    * @return a ResponseEntity of successful creation.
@@ -94,7 +95,7 @@ public class OrganizationController {
   }
 
   /**
-   * Delete a specified {@link Organization}from the Database.
+   * Deletes a specified {@link Organization}from the Database.
    * @param organizationId  a unique identifier {@link Organization} resource.
    */
   @DeleteMapping(value = "/{organizationId}")
@@ -104,7 +105,7 @@ public class OrganizationController {
   }
 
   /**
-   * Modify a specified {@link Organization}
+   * Modifies a specified {@link Organization}
    * @param organizationId a unique identifier {@link Organization} resource.
    * @param organization an instance of the {@link Organization} entity
    * @return the modified {@link Organization} to the Database.
@@ -118,7 +119,7 @@ public class OrganizationController {
   }
 
   /**
-   *  Pass a name to request a specified {@link Organization}.
+   *  Passes a name to request a specified {@link Organization}.
    * @param organizationId a unique identifier {@link Organization} resource.
    * @return
    */
@@ -137,7 +138,7 @@ public class OrganizationController {
   }
 
   /**
-   * Add the name of an {@link Organization} to the Database.
+   * Adds the name of an {@link Organization} to the Database.
    * @param organizationId a unique identifier {@link Organization} resource.
    * @param name to be added to the database
    * @return

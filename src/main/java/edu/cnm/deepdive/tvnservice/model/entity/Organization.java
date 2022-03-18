@@ -116,8 +116,8 @@ public class Organization {
   private boolean volunteer;
 
   /**
-   *
-   * @return the id of the specified {@link User}
+   * Retrieves the id of the specified {@link Organization}.
+   * @return
    */
   @NonNull
   public UUID getId() {
@@ -125,29 +125,30 @@ public class Organization {
   }
 
   /**
-   * @return @return the ExternalKey of the specified {@link User}
+   * Retrieves the ExternalKey of the specified {@link Organization}.
+   * @return
    */
   @NonNull
   public UUID getExternalKey() {
     return externalKey;
   }
   /**
-   *
-   * @return the name of the specified {@link User}.
+   * Retrieves the name of the specified {@link Organization}.
+   * @return
    */
   @NonNull
   public String getName() {
     return name;
   }
   /**
-   * Sets the name of {@link User} specific to {@code name}
+   * Sets the name of {@link Organization} specific to {@code name}
    */
   public void setName(@NonNull String name) {
     this.name = name;
   }
 
   /**
-   * Retrieves the {@code about} of the specified {@link User}
+   * Retrieves the {@code about} of the specified {@link Organization}.
    * @return
    */
   @NonNull
@@ -156,14 +157,14 @@ public class Organization {
   }
 
   /**
-   * Sets the name of this {@link User} specific to {@code name}
+   * Sets the {@code about} of this {@link Organization}.
    */
   public void setAbout(@NonNull String about) {
     this.about = about;
   }
 
   /**
-   *
+   * Retrieves the {@code mission} of the specified {@link Organization}.
    * @return
    */
   @NonNull
@@ -172,14 +173,14 @@ public class Organization {
   }
 
   /**
-   * Sets the name of this {@link User} specific to {@code name}
+   * Sets the {@code mission} of this {@link Organization}.
    */
   public void setMission(@NonNull String mission) {
     this.mission = mission;
   }
   /**
-   *
-   * @return the date of creation of this specified {@link User}
+   * Retrieves the date of creation of this instance of {@link Organization}.
+   * @return
    */
   @NonNull
   public Date getCreated() {
@@ -187,7 +188,7 @@ public class Organization {
   }
 
   /**
-   * Retrieves the {@code owner} the specified {@link User}
+   * Retrieves the {@code owner} the specified {@link Organization}
    * @return
    */
   public User getOwner() {
@@ -195,7 +196,7 @@ public class Organization {
   }
 
   /**
-   * Sets the {@code owner} of the specified {@link User}
+   * Sets the {@code owner} of the specified {@link Organization}
    * @param owner
    */
   public void setOwner(User owner) {
@@ -211,7 +212,7 @@ public class Organization {
   }
 
   /**
-   * Sets the specified {@code favorite} relative to the specific {@link Organization} &amp; {@link User}
+   * Sets the specified {@code favorite} relative to the specific {@link Organization} &amp; {@link User}.
    * @return
    */
   public Set<User> getFavoritingUsers() {
@@ -219,7 +220,7 @@ public class Organization {
   }
 
   /**
-   *
+   * Retrieve a list of {@link Opportunity} tied to this {@link Organization}.
    * @return
    */
   @NonNull
@@ -228,7 +229,7 @@ public class Organization {
   }
 
   /**
-   * Performs a check to see if this specific instance is a {@code favorite}
+   * Performs a check to see if this specific instance of {@link Organization}is a {@code favorite}.
    * @return
    */
   public boolean isFavorite() {

@@ -141,7 +141,7 @@ public class User {
   }
 
   /**
-   * the display name of the specified {@link User}
+   * Retrieves the display name of the specified {@link User}
    * @return
    */
   @NonNull
