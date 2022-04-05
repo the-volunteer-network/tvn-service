@@ -12,11 +12,11 @@ public interface AbstractUserService {
 
   /**
    * Create an Instance of this {@link User} in the database
-   * @param oauthKey passed to create this instance in the Database
-   * @param displayName passed to create this instance in  the Database
-   * @param email passed to create this instance in the Database
-   * @param givenName passed to create this instance in the Database
-   * @param familyName passed to create this instance in the Database
+   * @param oauthKey a unique identifier {@link Organization} resource.
+   * @param displayName
+   * @param email
+   * @param givenName
+   * @param familyName
    * @return
    */
   User getOrCreate(String oauthKey, String displayName, String email, String givenName,
@@ -37,16 +37,16 @@ public interface AbstractUserService {
 
   /**
    * Set a favorite instance of {@link Organization }
-   * @param externalKey passed on to create this favorite instance
-   * @param user passed on to create this favorite instance
-   * @param favorite passed on to create this favorite instance
+   * @param externalKey a unique identifier {@link Organization} resource.
+   * @param user  tied to this instance of favorite
+   * @param favorite
    * @return  a boolean instance of this favorite
    */
   Optional<Boolean> setFavorite(UUID externalKey, User user, boolean favorite) ;
 
   /**
    * Retrieves a favorite instance of an {@link Organization} from the database/
-   * @param externalKey passed on to retrieve this instance
+   * @param externalKey a unique identifier {@link Organization} resource.
    * @param user  passed on to retrieve this instance
    * @return  an Optional favorite from the database
    */
@@ -54,7 +54,7 @@ public interface AbstractUserService {
 
   /**
    * Set the specified Volunteer to the database,if this instance is not already set in the database.
-   * @param organizationExternalKey passed on to set this instance
+   * @param organizationExternalKey a unique identifier {@link Organization} resource.
    * @param user passed on to set this instance
    * @param volunteer passed on to set this instance
    * @return the specified volunteer.
@@ -63,8 +63,8 @@ public interface AbstractUserService {
 
   /**
    * Retrieves all the volunteers  from the database if the boolean volunteer returns true.
-   * @param organizationExternalKey passed on to set this instance
-   * @param user passed on to set this instance
+   * @param organizationExternalKey a unique identifier {@link Organization} resource.
+   * @param user
    * @return the specified volunteers
    */
   Optional<Boolean> getVolunteer(UUID organizationExternalKey,  User user);

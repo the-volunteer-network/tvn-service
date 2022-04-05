@@ -40,7 +40,8 @@ public class UserController {
   }
 
   /**
-   * Retrieves the current {@link User} of the service Return current user.
+   * Retrieves the current {@link User} of the service
+   * Returns the current user.
    */
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getProfile() {
@@ -55,8 +56,7 @@ public class UserController {
   /**
    * Retrieve an instance of favorite by the {@link Organization} id, if the instance of favorite is
    * true.
-   *
-   * @param organizationId
+   * @param organizationId a unique identifier {@link Organization} resource.
    * @return an instance of favorite.
    */
   @GetMapping(value = "/me/favorites/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,8 +70,8 @@ public class UserController {
    * Find an organization by its id, if the instance of favorite  is true, the instance is added,
    * otherwise it is removed.
    *
-   * @param organizationId passed on to set an instance of favorite.
-   * @param favorite       passed on to set an instance of favorite
+   * @param organizationId a unique identifier {@link Organization} resource.
+   * @param favorite       an instance of favorite
    * @return this instance of favorite
    */
   @PutMapping(value = "/me/favorites/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -109,7 +109,7 @@ public class UserController {
   /**
    * Find an organization by its id, if the instance of volunteer  is true, the instance is added to the database
    * otherwise it is removed.
-   * @param organizationId passed on to set this instance of volunteer
+   * @param organizationId a unique identifier {@link Organization} resource.
    * @param volunteer passed on to set this instance of volunteer
    * @return  the specified volunteer.
    */

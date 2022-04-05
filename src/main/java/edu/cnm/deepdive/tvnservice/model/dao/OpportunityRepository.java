@@ -15,15 +15,15 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, UUID> 
   /**
    * Retrieves a {@link Opportunity} with the specified externalKey if it exists.
    *
-   * @param uuid passed on to retrieve the specified {@link Opportunity}
+   * @param uuid a unique identifier {@link Opportunity} resource.
    * @return the specified {@link  Opportunity}
    */
   Optional<Opportunity> findByExternalKey(UUID uuid);
 
   /**
-   *
-   * @param externalKey
-   * @param organization
+   * Retrieves the specified  {@link Opportunity}
+   * @param externalKey a unique identifier {@link Opportunity} resource.
+   * @param organization the specified {@link Organization} this {@link Opportunity} is tied to.
    * @return
    */
   Optional<Opportunity> findByExternalKeyAndOrganization(UUID externalKey,

@@ -14,22 +14,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
 
   /**
-   * Retrieves a {@link Organization} with the specified externalKey if it exists.
-   * @param uuid passed on to retrieve the specified {@link Organization}
+   * Retrieves an {@link Organization} tied to this specified externalKey if it exists.
+   * @param uuid a unique identifier {@link Organization} resource.
    * @return the specified {@link Organization}
    */
   Optional<Organization> findByExternalKey(UUID uuid);
 
   /**
    * Retrieves a {@link Organization} with the specified externalKey if it exists.
-   * @param externalKey passed on to retrieve the specified owner
-   * @param owner passed on to retrieve the specified owner
+   * @param externalKey a unique identifier {@link Organization} resource.
+   * @param owner the instance of owner tied to that {@link Organization}
    * @return the specified {@link Organization}
    */
   Optional<Organization> findByExternalKeyAndOwner(UUID externalKey, User owner);
 
   /**
-   * Searches and retrieves the {@link Organization} in the Database containing the passed parameter.
+   * Searches and retrieves an {@link Organization} in the Database containing the passed parameter.
    * @param fragment String passed on in the search to retrieve a specified {@link Organization}
    * @return the specified {@link Organization}
    */

@@ -1,12 +1,13 @@
 package edu.cnm.deepdive.tvnservice.service;
 
 import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
+import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Method to be implemented in the {@link OpportunityService}
+ * High-level operations available to be performed on the {@link Opportunity}
  */
 public interface AbstractOpportunityService {
 
@@ -16,32 +17,47 @@ public interface AbstractOpportunityService {
   /**
    * Adds an {@link Opportunity} to the Database.
    *
-   * @param opportunity
-   * @param externalOrganizationKey
+   * @param opportunity instance to be added.
+   * @param externalOrganizationKey a unique identifier {@link Opportunity} resource.
    * @param owner
-   * @return
+   * @return the specified {@link Opportunity}
    */
   Opportunity addOpportunity(Opportunity opportunity, UUID externalOrganizationKey, User owner);
 
   /**
    * Deletes this instance of {@link Opportunity} from the database.
    *
-   * @param externalKey
+   * @param opportunityExternalKey  a unique identifier {@link Opportunity} resource.
+   * @param organizationExternalKey  a unique identifier {@link Organization} resource.
    * @param owner
    */
   void deleteOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey, User owner);
 
   /**
-   * Modify the specified instance of {@link Opportunity} in the database.
+   * Modifies the specified instance of {@link Opportunity} in the database.
    *
-   * @param externalKey
+   * @param opportunityExternalKey  a unique identifier {@link Opportunity} resource.
+   * @param organizationExternalKey a unique identifier {@link Organization} resource.
+   * @param owner
    * @return the modified instance of the specified {@link Opportunity}
    */
   Optional<Opportunity> modifyOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey,
       Opportunity opportunity, User owner);
 
+  /**
+   *  Retrieves the specified {@link Organization} from the Database
+   * @param organizationExternalKey a unique identifier {@link Organization} resource.
+   * @param opportunityExternalKey a unique identifier {@link Opportunity} resource.
+   * @param user
+   * @return the specified {@link Opportunity}.
+   */
   Optional<Opportunity> getOpportunity(UUID organizationExternalKey, UUID opportunityExternalKey,
       User user);
 
+  /**
+   * Retrieves all the {@link Organization}
+   * @param organizationExternalKey a unique identifier {@link Organization} resource.
+   * @return all of the instances of {@link Opportunity}
+   */
   Iterable<Opportunity> getAllOpportunities(UUID organizationExternalKey);
 }
