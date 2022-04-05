@@ -56,8 +56,18 @@ public class UserService implements AbstractUserService {
   }
 
   @Override
-  public User updateUser(User received) {
-    return null;
+  public User updateUser(User received, User currentUser) {
+    return userRepository
+        .findById(currentUser.getId())
+        .map((user) -> {
+          user.setName(received.getName());
+          user.setDisplayName(received.getDisplayName());
+          user.setLocation(received.getLocation());
+          user.setEmail(received.getEmail());
+          user.setPhoneNumber(received.getPhoneNumber());
+          return userRepository.save(user);
+        })
+        .orElseThrow();
   }
 
 

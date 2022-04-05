@@ -29,6 +29,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -62,10 +66,16 @@ public class User {
 
   @NonNull
   @Column(nullable = false, unique = true, length = 50)
+  @NotNull
+  @NotBlank
+  @Size(max = 50)
   private String displayName;
 
   @NonNull
   @Column(nullable = false, unique = true)
+  @NotNull
+  @NotBlank
+  @Size(max = 255)
   private String name;
 
   private String location;

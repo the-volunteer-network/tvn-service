@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.print.attribute.standard.Media;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,11 @@ public class UserController {
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getProfile() {
     return userService.getCurrentUser();
+  }
+
+  @PutMapping(value = "/me", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public User modifyProfile(@RequestBody @Valid User user) {
+    return userService.updateUser(user, userService.getCurrentUser());
   }
 
   /**

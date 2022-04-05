@@ -33,7 +33,7 @@ public interface AbstractUserService {
    * @param received passed to update this instance in the Database
    * @return the updated {@link User}
    */
-  User updateUser(User received);
+  User updateUser(User received, User currentUser);
 
   /**
    * Set a favorite instance of {@link Organization }
