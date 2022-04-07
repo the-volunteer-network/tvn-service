@@ -131,5 +131,6 @@ public class UserController {
     return new ArrayList<>(userService.getCurrentUser().getOrganizations());
   }
 
+  // TODO  add a put for updating user profile.
 
 }

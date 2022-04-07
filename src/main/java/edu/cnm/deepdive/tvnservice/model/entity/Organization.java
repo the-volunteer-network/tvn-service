@@ -75,6 +75,12 @@ public class Organization {
   @NotBlank
   private String mission;
 
+  @Column(nullable = false)
+  private double latitude;
+
+  @Column(nullable = false)
+  private double longitude;
+
   @NonNull
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
@@ -178,6 +184,23 @@ public class Organization {
   public void setMission(@NonNull String mission) {
     this.mission = mission;
   }
+
+  public double getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
+  public double getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
+
   /**
    * Retrieves the date of creation of this instance of {@link Organization}.
    * @return

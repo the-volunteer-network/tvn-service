@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: preload
+  main:
+    web-application-type: none
+
+user-id: c35d909e-48ce-4655-9503-d5d3e803a415
