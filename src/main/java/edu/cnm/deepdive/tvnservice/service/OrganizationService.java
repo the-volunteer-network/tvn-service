@@ -6,7 +6,6 @@ import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,22 @@ public class OrganizationService implements AbstractOrganizationService {
       org.setFavorite(user.getFavorites().contains(org));
     }else {
       org.setFavorite(false);
+    }
+    return org;
+  };
+  private final BiFunction<Organization, User , Organization> volunteerMarker = (org, user) -> {
+    if (user != null) {
+      org.setVolunteer(user.getOrganizations().contains(org));
+    }else {
+      org.setVolunteer(false);
+    }
+    return org;
+  };
+  private final BiFunction<Organization, User , Organization> ownedMarker = (org, user) -> {
+    if (user != null) {
+      org.setOwned(user.equals(org.getOwner()));
+    }else {
+      org.setOwned(false);
     }
     return org;
   };
@@ -68,7 +83,9 @@ public class OrganizationService implements AbstractOrganizationService {
   public Optional<Organization> getOrganization(UUID externalKey,User user) {
     return repository
         .findByExternalKey(externalKey)
-        .map((org) -> favoriteMarker.apply(org,user));
+        .map((org) -> favoriteMarker.apply(org,user))
+        .map((org) -> volunteerMarker.apply(org, user))
+        .map((org) -> ownedMarker.apply(org,user));
   }
 
   @Override
@@ -94,6 +111,8 @@ public class OrganizationService implements AbstractOrganizationService {
         .getAllByOrderByNameAsc()
         .stream()
         .map((org) -> favoriteMarker.apply(org, user))
+        .map((org) -> volunteerMarker.apply(org, user))
+        .map((org) -> ownedMarker.apply(org, user))
         .collect(Collectors.toList());
   }
 
@@ -103,8 +122,19 @@ public class OrganizationService implements AbstractOrganizationService {
         .findByNameContainingOrderByNameAsc(fragment)
         .stream()
         .map((org) -> favoriteMarker.apply(org, user))
+        .map((org) -> volunteerMarker.apply(org, user))
+        .map((org) -> ownedMarker.apply(org, user))
         .collect(Collectors.toList());
   }
 
-
+  @Override
+  public Iterable<Organization> getOwned(User user) {
+    return user
+        .getOwnedOrganizations()
+        .stream()
+        .map((org) -> favoriteMarker.apply(org, user))
+        .map((org) -> volunteerMarker.apply(org, user))
+        .sorted((orgA, orgB) -> orgA.getName().compareToIgnoreCase(orgB.getName()))
+        .collect(Collectors.toList());
+  }
 }

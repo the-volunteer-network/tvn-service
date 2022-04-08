@@ -2,12 +2,12 @@ package edu.cnm.deepdive.tvnservice.controller;
 
 import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
+import edu.cnm.deepdive.tvnservice.service.AbstractOrganizationService;
 import edu.cnm.deepdive.tvnservice.service.AbstractUserService;
+import edu.cnm.deepdive.tvnservice.service.UserService;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import edu.cnm.deepdive.tvnservice.service.UserService;
 
 /**
  * Handles REST requests for operation on individual instances and collections of {@link  User}
@@ -27,6 +26,7 @@ import edu.cnm.deepdive.tvnservice.service.UserService;
 public class UserController {
 
   private final AbstractUserService userService;
+  private final AbstractOrganizationService organizationService;
 
   /**
    * Initialize this instance with {@link UserService},instance used to perform the requested
@@ -34,9 +34,12 @@ public class UserController {
    *
    * @param userService provides access to high-level query &amp; persistence operations on {@link
    *                    User} instances.
+   * @param organizationService
    */
-  public UserController(AbstractUserService userService) {
+  public UserController(AbstractUserService userService,
+      AbstractOrganizationService organizationService) {
     this.userService = userService;
+    this.organizationService = organizationService;
   }
 
   /**
@@ -97,7 +100,7 @@ public class UserController {
   }
 
   // TODO add/remove current user to volunteer for organization
-  @GetMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/me/volunteers/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean isVolunteer(@PathVariable UUID organizationId) {
     return userService
         .getVolunteer(organizationId, userService.getCurrentUser())
@@ -113,7 +116,7 @@ public class UserController {
    * @param volunteer passed on to set this instance of volunteer
    * @return  the specified volunteer.
    */
-  @PutMapping(value = "/me/volunteers/{organizationId}")
+  @PutMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
     return userService
         .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
@@ -126,11 +129,15 @@ public class UserController {
    *
    * @return all the instances of volunteers tied to this {@link User}
    */
-  @GetMapping(value = "/me/volunteers")
+  @GetMapping(value = "/me/volunteers", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getVolunteers() {
     return new ArrayList<>(userService.getCurrentUser().getOrganizations());
   }
 
-  // TODO  add a put for updating user profile.
 
+  @GetMapping(value = "/me/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<Organization> getOwnedOrganizations() {
+    return organizationService
+        .getOwned(userService.getCurrentUser());
+  }
 }
