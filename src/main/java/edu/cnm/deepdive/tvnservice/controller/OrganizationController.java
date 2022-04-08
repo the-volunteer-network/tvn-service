@@ -180,4 +180,5 @@ public class OrganizationController {
     return organizationService.searchByName(fragment, userService.getCurrentUser());
   }
 
+
 }

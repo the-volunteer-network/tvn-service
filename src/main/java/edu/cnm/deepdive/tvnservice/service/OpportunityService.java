@@ -85,4 +85,21 @@ public class OpportunityService implements AbstractOpportunityService{
         .map(Organization::getOpportunities)
         .orElseThrow();
   }
+
+  @Override
+  public Iterable<Opportunity> searchByName(String fragment) {
+    return opportunityRepository
+        .findByNameContainingOrderByName(fragment);
+
+  }
+
+  @Override
+  public Iterable<Opportunity> searchByNameAndOrganization(String fragment,
+      UUID organizationExternalKey) {
+    return organizationRepository
+        .findByExternalKey(organizationExternalKey)
+        .map((org) -> opportunityRepository.findByNameContainingAndOrganizationOrderByName(fragment, org))
+        .orElseThrow();
+  }
+
 }
