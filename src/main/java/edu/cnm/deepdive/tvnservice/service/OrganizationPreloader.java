@@ -40,7 +40,7 @@ public class OrganizationPreloader implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     User owner = userRepository
-        .findById(userId)
+        .findByExternalKey(userId)
         .orElseThrow();
     ClassPathResource resource = new ClassPathResource("preload/organizations.json");
     try (InputStream input = resource.getInputStream()) {

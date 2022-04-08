@@ -4,4 +4,3 @@ spring:
   main:
     web-application-type: none
 
-user-id: 1de35947-4ca1-4d68-9321-290264f819d5

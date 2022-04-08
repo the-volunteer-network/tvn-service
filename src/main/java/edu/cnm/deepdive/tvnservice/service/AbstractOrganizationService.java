@@ -79,4 +79,5 @@ public interface AbstractOrganizationService {
   Iterable<Organization> searchByName(String fragment, User user);
 
 
+  Iterable<Organization> getOwned(User user);
 }
