@@ -121,6 +121,9 @@ public class Organization {
   @Transient
   private boolean volunteer;
 
+  @Transient
+  private boolean owned;
+
   /**
    * Retrieves the id of the specified {@link Organization}.
    * @return
@@ -281,6 +284,14 @@ public class Organization {
    */
   public void setVolunteer(boolean volunteer) {
     this.volunteer = volunteer;
+  }
+
+  public boolean isOwned() {
+    return owned;
+  }
+
+  public void setOwned(boolean owned) {
+    this.owned = owned;
   }
 
   @Override

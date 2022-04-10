@@ -60,4 +60,8 @@ public interface AbstractOpportunityService {
    * @return all of the instances of {@link Opportunity}
    */
   Iterable<Opportunity> getAllOpportunities(UUID organizationExternalKey);
+
+  Iterable<Opportunity> searchByName(String fragment);
+
+  Iterable<Opportunity> searchByNameAndOrganization(String fragment, UUID organizationExternalKey);
 }

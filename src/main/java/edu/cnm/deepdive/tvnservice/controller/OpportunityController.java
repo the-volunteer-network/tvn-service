@@ -10,6 +10,8 @@ import edu.cnm.deepdive.tvnservice.service.UserService;
 import java.net.URI;
 import java.util.UUID;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,12 +23,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 
 /**
- * Handles REST requests for operation on individual instances and collections of {@link Opportunity} entity.
+ * Handles REST requests for operation on individual instances and collections of {@link
+ * Opportunity} entity.
  */
 @RestController
 @RequestMapping("/organizations/{organizationId}/opportunities")
@@ -39,10 +43,11 @@ public class OpportunityController {
   /**
    * Initializes this instance with {@link OrganizationService} &amp; {@link UserService},instances
    * used to perform the requested operations.
-   * @param opportunityService  provides access to high-level query &amp; persistence operations on
+   *
+   * @param opportunityService provides access to high-level query &amp; persistence operations on
    *                           {@link Opportunity} instances.
-   * @param userService   provides persistence operations on {@link User}.
-   * @param mapper        provides functionality for reading and writing JSON
+   * @param userService        provides persistence operations on {@link User}.
+   * @param mapper             provides functionality for reading and writing JSON
    */
   public OpportunityController(
       AbstractOpportunityService opportunityService,
@@ -54,8 +59,9 @@ public class OpportunityController {
 
   /**
    * Selects and returns a specified {@link Opportunity}.
+   *
    * @param organizationId a unique identifier {@link Opportunity} resource.
-   * @param opportunityId a unique identifier {@link Opportunity} resource.
+   * @param opportunityId  a unique identifier {@link Opportunity} resource.
    * @return specified {@link Opportunity}
    */
   @GetMapping(value = "/{opportunityId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,8 +73,9 @@ public class OpportunityController {
 
   /**
    * Adds an {@link Opportunity} to the service.
+   *
    * @param organizationId {a unique identifier {@link Organization} resource.
-   * @param opportunity     {@link Opportunity} to be added to the database table
+   * @param opportunity    {@link Opportunity} to be added to the database table
    * @return a ResponseEntity of successful creation.
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,7 +98,8 @@ public class OpportunityController {
 
   /**
    * Passes a name to request a specified {@link Opportunity}.
-   * @param organizationId  unique identifier {@link Organization} resource.
+   *
+   * @param organizationId unique identifier {@link Organization} resource.
    * @return the specified instance of {@link Opportunity}
    */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,7 +109,8 @@ public class OpportunityController {
 
   /**
    * Deletes a specified {@link Opportunity}from the Database.
-   * @param organizationId  a unique identifier {@link Organization} resource.
+   *
+   * @param organizationId a unique identifier {@link Organization} resource.
    * @param opportunityId  a unique identifier {@link Opportunity} resource.
    */
   @DeleteMapping(value = "/{opportunityId}")
@@ -112,17 +121,28 @@ public class OpportunityController {
   }
 
   /**
-   *  Modify a specified {@link Organization}
+   * Modify a specified {@link Organization}
+   *
    * @param organizationId a unique identifier {@link Organization} resource.
-   * @param opportunityId a unique identifier {@link Opportunity} resource.
-   * @param opportunity  the specified instance of {@link Opportunity} to be modified.
+   * @param opportunityId  a unique identifier {@link Opportunity} resource.
+   * @param opportunity    the specified instance of {@link Opportunity} to be modified.
    * @return the specified modified {@link Opportunity}
    */
   @PutMapping(value = "/{opportunityId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public Opportunity put(@PathVariable UUID organizationId, @PathVariable UUID opportunityId, @RequestBody Opportunity opportunity) {
+  public Opportunity put(@PathVariable UUID organizationId, @PathVariable UUID opportunityId,
+      @RequestBody Opportunity opportunity) {
     return opportunityService
-        .modifyOpportunity(organizationId, opportunityId,opportunity, userService.getCurrentUser())
+        .modifyOpportunity(organizationId, opportunityId, opportunity, userService.getCurrentUser())
         .orElseThrow();
 
   }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = {"q"})
+  public Iterable<Opportunity> search(@RequestParam(name = "q") @Size(min = 2) String fragment,
+      @PathVariable UUID organizationId) {
+    return opportunityService.searchByNameAndOrganization(fragment, organizationId);
+  }
+
+
+
 }

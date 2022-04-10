@@ -29,4 +29,7 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, UUID> 
   Optional<Opportunity> findByExternalKeyAndOrganization(UUID externalKey,
       Organization organization);
 
+  Iterable<Opportunity> findByNameContainingOrderByName(String fragment);
+
+  Iterable<Opportunity> findByNameContainingAndOrganizationOrderByName(String fragment, Organization organization);
 }
