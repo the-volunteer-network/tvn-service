@@ -19,8 +19,9 @@ public class UserService implements AbstractUserService {
   private final OrganizationRepository organizationRepository;
 
   /**
-   * Constructor for the {@link UserService} class
-   * initializes and create objects from included parameters.
+   * Constructor for the {@link UserService} class initializes and create objects from included
+   * parameters.
+   *
    * @param userRepository
    * @param organizationRepository
    */
@@ -98,23 +99,27 @@ public class UserService implements AbstractUserService {
   @Override
   public Optional<Boolean> setVolunteer(UUID organizationExternalKey, User user,
       boolean volunteer) {
-    return organizationRepository
-        .findByExternalKey(organizationExternalKey)
-        .map((org) -> {
-          if (volunteer) {
-            org.getVolunteers().add(user);
-          } else {
-            org.getVolunteers().remove(user);
-          }
-          organizationRepository.save(org);
-          return volunteer;
-        });
+    return userRepository
+        .findById(user.getId())
+        .flatMap((u) ->
+            organizationRepository
+                .findByExternalKey(organizationExternalKey)
+                .map((org) -> {
+                  if (volunteer) {
+                    org.getVolunteers().add(u);
+                  } else {
+                    org.getVolunteers().remove(u);
+                  }
+                  organizationRepository.save(org);
+                  return volunteer;
+                })
+        );
   }
 
   @Override
   public Optional<Boolean> getVolunteer(UUID organizationExternalKey, User user) {
     return organizationRepository
         .findByExternalKey(organizationExternalKey)
-        .map((org)-> org.getVolunteers().contains(user));
+        .map((org) -> org.getVolunteers().contains(user));
   }
 }
