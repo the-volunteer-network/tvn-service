@@ -94,7 +94,7 @@ public class User {
   private String phoneNumber;
 
   @NonNull
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
   @OrderBy("name ASC")
   @JsonIgnore
   private final Set<Organization> ownedOrganizations = new LinkedHashSet<>();
