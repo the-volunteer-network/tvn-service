@@ -188,18 +188,34 @@ public class Organization {
     this.mission = mission;
   }
 
+  /**
+   * Retrieves the {@code latitude} of this {@link Organization}
+   * @return
+   */
   public double getLatitude() {
     return latitude;
   }
 
+  /**
+   * Sets the {@code latitude} of this {@link Organization}
+   * @param latitude
+   */
   public void setLatitude(double latitude) {
     this.latitude = latitude;
   }
 
+  /**
+   * Retrieves the {@code longitude} of this {@link Organization}
+   * @return
+   */
   public double getLongitude() {
     return longitude;
   }
 
+  /**
+   * Sets the {@code longitude} of this {@link Organization}
+   * @param longitude
+   */
   public void setLongitude(double longitude) {
     this.longitude = longitude;
   }
@@ -286,10 +302,18 @@ public class Organization {
     this.volunteer = volunteer;
   }
 
+  /**
+   * Performs a check to see if this specific instance is a {@code volunteer}
+   * @return
+   */
   public boolean isOwned() {
     return owned;
   }
 
+  /**
+   * Sets this instance as owned {@link Organization}
+   * @param owned
+   */
   public void setOwned(boolean owned) {
     this.owned = owned;
   }

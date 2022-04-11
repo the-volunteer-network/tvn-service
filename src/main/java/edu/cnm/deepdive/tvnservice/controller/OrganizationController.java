@@ -171,7 +171,7 @@ public class OrganizationController {
   }
 
   /**
-   *  Search &amp; retrieves a specified {@link Organization}
+   *  Searches &amp; retrieves a specified {@link Organization}
    * @param fragment part of the String passed in the search to retrieve a specified {@link Organization}
    * @return
    */
