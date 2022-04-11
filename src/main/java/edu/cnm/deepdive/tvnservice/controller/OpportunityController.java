@@ -137,6 +137,12 @@ public class OpportunityController {
 
   }
 
+  /**
+   *  Searches and retrieves a specified {@link Opportunity}
+   * @param fragment part of the String passed in the search to retrieve a specified {@link Organization}
+   * @param organizationId  id of the specified {@link Organization}
+   * @return
+   */
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, params = {"q"})
   public Iterable<Opportunity> search(@RequestParam(name = "q") @Size(min = 2) String fragment,
       @PathVariable UUID organizationId) {

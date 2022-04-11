@@ -29,7 +29,18 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, UUID> 
   Optional<Opportunity> findByExternalKeyAndOrganization(UUID externalKey,
       Organization organization);
 
+  /**
+   * Searches and retrieves an {@link Opportunity} in the Database containing the passed parameter.
+   * @param fragment String passed on in the search to retrieve a specified {@link Opportunity}
+   * @return the specified {@link Opportunity}
+   */
   Iterable<Opportunity> findByNameContainingOrderByName(String fragment);
 
+  /**
+   * Searches and retrieves an {@link Opportunity} in the Database containing the passed parameter and the specified {@link Organization}
+   * @param fragment String passed on in the search to retrieve a specified {@link Opportunity}
+   * @param organization  specified {@link Organization passed to retrieve this instance.}
+   * @return
+   */
   Iterable<Opportunity> findByNameContainingAndOrganizationOrderByName(String fragment, Organization organization);
 }

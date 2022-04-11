@@ -134,6 +134,10 @@ public class UserController {
     return new ArrayList<>(userService.getCurrentUser().getOrganizations());
   }
 
+  /**
+   * Returns the owned {@link Organization} for the specified user.
+   * @return
+   */
 
   @GetMapping(value = "/me/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getOwnedOrganizations() {

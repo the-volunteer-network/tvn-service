@@ -5,5 +5,26 @@
     "mission": "My mission",
     "latitude": 35.0670812,
     "longitude": -106.5529049
+  },
+  {
+    "name": "FIFABQ",
+    "about": "We are a gleaning group",
+    "mission": "We support social empowerment through the growing and sharing of fresh food.",
+    "latitude": 35.198423456969856,
+    "longitude": -106.6569578312175
+  },
+  {
+    "name": "New Mexico Kids Matter",
+    "about": "We advocate for the best interest of abused and neglected children.",
+    "mission": "We advocate for children who’ve been abused or neglected by empowering community volunteers to speak up for them in the foster care system. Ensuring that every child grows up in a safe, nurturing and permanent home.",
+    "latitude": 35.05466887880689,
+    "longitude": -106.62087466137422
+  },
+  {
+    "name": "Meals on Wheels",
+    "about": "Nourishing bodies and spirits with balanced meals and friendship.",
+    "mission": "We provide our services to any one of any age. There are no restrictions for age or disability. We help you or your loved one stay happy, healthy and independent.",
+    "latitude": 35.1544654787576,
+    "longitude": -106.58457854471112
   }
 ]

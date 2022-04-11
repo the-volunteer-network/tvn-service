@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.tvnservice.model.dao;
 
-import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
