@@ -51,6 +51,11 @@ public class UserController {
     return userService.getCurrentUser();
   }
 
+  /**
+   * Modifies the profile of the {@link User}
+   * @param user
+   * @return
+   */
   @PutMapping(value = "/me", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public User modifyProfile(@RequestBody @Valid User user) {
     return userService.updateUser(user, userService.getCurrentUser());
@@ -100,6 +105,12 @@ public class UserController {
   }
 
   // TODO add/remove current user to volunteer for organization
+
+  /**
+   * Returns the instances of volunteer the user is tied to.
+   * @param organizationId
+   * @return
+   */
   @GetMapping(value = "/me/volunteers/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean isVolunteer(@PathVariable UUID organizationId) {
     return userService
@@ -116,11 +127,11 @@ public class UserController {
    * @param volunteer passed on to set this instance of volunteer
    * @return  the specified volunteer.
    */
-  @PutMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
-    return userService
-        .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
-        .orElseThrow();
+    @PutMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
+      return userService
+          .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
+          .orElseThrow();
   }
 
   // Todo gets a list of organizations I am a  volunteer for
