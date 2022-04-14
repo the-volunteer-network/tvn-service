@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * entity.
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping(PathComponents.USERS)
 public class UserController {
 
   private final AbstractUserService userService;
@@ -46,7 +46,7 @@ public class UserController {
    * Retrieves the current {@link User} of the service
    * Returns the current user.
    */
-  @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.CURRENT_USER, produces = MediaType.APPLICATION_JSON_VALUE)
   public User getProfile() {
     return userService.getCurrentUser();
   }
@@ -56,7 +56,7 @@ public class UserController {
    * @param user
    * @return
    */
-  @PutMapping(value = "/me", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = PathComponents.CURRENT_USER, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public User modifyProfile(@RequestBody @Valid User user) {
     return userService.updateUser(user, userService.getCurrentUser());
   }
@@ -67,7 +67,7 @@ public class UserController {
    * @param organizationId a unique identifier {@link Organization} resource.
    * @return an instance of favorite.
    */
-  @GetMapping(value = "/me/favorites/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.FAVORITE_ORG, produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean isFavorite(@PathVariable UUID organizationId) {
     return userService
         .getFavorite(organizationId, userService.getCurrentUser())
@@ -82,7 +82,7 @@ public class UserController {
    * @param favorite       an instance of favorite
    * @return this instance of favorite
    */
-  @PutMapping(value = "/me/favorites/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = PathComponents.FAVORITE_ORG, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean setFavorite(@PathVariable UUID organizationId, @RequestBody boolean favorite) {
     return userService
         .setFavorite(organizationId, userService.getCurrentUser(), favorite)
@@ -94,7 +94,7 @@ public class UserController {
    *
    * @return a list of all the favorites.
    */
-  @GetMapping(value = "/me/favorites", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.ALL_FAVORITES, produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getFavorites() {
     return userService
         .getCurrentUser()
@@ -111,7 +111,7 @@ public class UserController {
    * @param organizationId
    * @return
    */
-  @GetMapping(value = "/me/volunteers/{organizationId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.VOLUNTEER_ORG, produces = MediaType.APPLICATION_JSON_VALUE)
   public boolean isVolunteer(@PathVariable UUID organizationId) {
     return userService
         .getVolunteer(organizationId, userService.getCurrentUser())
@@ -127,7 +127,7 @@ public class UserController {
    * @param volunteer passed on to set this instance of volunteer
    * @return  the specified volunteer.
    */
-    @PutMapping(value = "/me/volunteers/{organizationId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = PathComponents.VOLUNTEER_ORG, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean setVolunteer(@PathVariable UUID organizationId, @RequestBody boolean volunteer) {
       return userService
           .setVolunteer(organizationId, userService.getCurrentUser(), volunteer)
@@ -140,7 +140,7 @@ public class UserController {
    *
    * @return all the instances of volunteers tied to this {@link User}
    */
-  @GetMapping(value = "/me/volunteers", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.ALL_VOLUNTEERS, produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getVolunteers() {
     return new ArrayList<>(userService.getCurrentUser().getOrganizations());
   }
@@ -150,7 +150,7 @@ public class UserController {
    * @return
    */
 
-  @GetMapping(value = "/me/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.ALL_OWNED_ORGANIZATIONS, produces = MediaType.APPLICATION_JSON_VALUE)
   public Iterable<Organization> getOwnedOrganizations() {
     return organizationService
         .getOwned(userService.getCurrentUser());

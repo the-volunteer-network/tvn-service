@@ -64,9 +64,8 @@ public class Opportunity {
 
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "organization_id", nullable = false, updatable = false)
-  @JsonIgnore
   private Organization organization;
   /**
    * Retrieves the id of the specified {@link Opportunity}
