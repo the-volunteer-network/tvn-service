@@ -33,7 +33,7 @@ import edu.cnm.deepdive.tvnservice.model.entity.User;
  * Opportunity} entity.
  */
 @RestController
-@RequestMapping("/organizations/{organizationId}/opportunities")
+@RequestMapping(PathComponents.ORGANIZATION_OPPORTUNITIES)
 public class OpportunityController {
 
   private final AbstractOpportunityService opportunityService;
@@ -64,7 +64,7 @@ public class OpportunityController {
    * @param opportunityId  a unique identifier {@link Opportunity} resource.
    * @return specified {@link Opportunity}
    */
-  @GetMapping(value = "/{opportunityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = PathComponents.SPECIFIC_OPPORTUNITY, produces = MediaType.APPLICATION_JSON_VALUE)
   public Opportunity get(@PathVariable UUID organizationId, @PathVariable UUID opportunityId) {
     return opportunityService
         .getOpportunity(organizationId, opportunityId, userService.getCurrentUser())
@@ -113,7 +113,7 @@ public class OpportunityController {
    * @param organizationId a unique identifier {@link Organization} resource.
    * @param opportunityId  a unique identifier {@link Opportunity} resource.
    */
-  @DeleteMapping(value = "/{opportunityId}")
+  @DeleteMapping(value = PathComponents.SPECIFIC_OPPORTUNITY)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable UUID organizationId, @PathVariable UUID opportunityId) {
     opportunityService.deleteOpportunity(organizationId, opportunityId,
@@ -128,7 +128,7 @@ public class OpportunityController {
    * @param opportunity    the specified instance of {@link Opportunity} to be modified.
    * @return the specified modified {@link Opportunity}
    */
-  @PutMapping(value = "/{opportunityId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = PathComponents.SPECIFIC_OPPORTUNITY, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public Opportunity put(@PathVariable UUID organizationId, @PathVariable UUID opportunityId,
       @RequestBody Opportunity opportunity) {
     return opportunityService
