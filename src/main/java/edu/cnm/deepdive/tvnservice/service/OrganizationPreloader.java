@@ -3,6 +3,7 @@ package edu.cnm.deepdive.tvnservice.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.cnm.deepdive.tvnservice.model.dao.OrganizationRepository;
 import edu.cnm.deepdive.tvnservice.model.dao.UserRepository;
+import edu.cnm.deepdive.tvnservice.model.entity.Opportunity;
 import edu.cnm.deepdive.tvnservice.model.entity.Organization;
 import edu.cnm.deepdive.tvnservice.model.entity.User;
 import java.io.InputStream;
@@ -48,7 +49,12 @@ public class OrganizationPreloader implements CommandLineRunner {
       Organization[] organizations = mapper.readValue(input, Organization[].class);
       List<Organization> orgList = Arrays
           .stream(organizations)
-          .peek((org) -> org.setOwner(owner))
+          .peek((org) -> {
+            org.setOwner(owner);
+            for (Opportunity opp: org.getOpportunities()) {
+              opp.setOrganization(org);
+            }
+          })
           .collect(Collectors.toList());
       organizationRepository.saveAll(orgList);
     }
