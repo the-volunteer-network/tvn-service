@@ -1,17 +1,33 @@
 [
   {
     "name": "Animal Humane Association",
-    "about": "Test",
-    "mission": "My mission",
+    "about": "The state leading non-profit animal welfare organization.",
+    "mission": "Support and improve the lives of New Mexico's cats and dogs through sheltering, adoptions, humane education and veterinary services.",
     "latitude": 35.0670812,
-    "longitude": -106.5529049
+    "longitude": -106.5529049,
+    "opportunities": [
+      {
+        "title": "Animal walker",
+        "name": "Animal walker",
+        "description": "We need an active person to walk dogs multiple times a week.",
+        "neededSkill": "Sporty and not afraid of big dogs"
+      }
+    ]
   },
   {
     "name": "FIFABQ",
     "about": "We are a gleaning group",
     "mission": "We support social empowerment through the growing and sharing of fresh food.",
     "latitude": 35.198423456969856,
-    "longitude": -106.6569578312175
+    "longitude": -106.6569578312175,
+    "opportunities": [
+      {
+        "title": "Gardener",
+        "name": "Gardener",
+        "description": "We need a person with a green thumb and experienced with organic farming.",
+        "neededSkill": "We need a person with a green thumb and experienced with organic farming."
+      }
+    ]
   },
   {
     "name": "New Mexico Kids Matter",

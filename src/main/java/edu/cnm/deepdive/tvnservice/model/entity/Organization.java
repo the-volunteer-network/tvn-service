@@ -112,7 +112,7 @@ public class Organization {
   @NonNull
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("name ASC")
-  @JsonIgnore
+  @JsonProperty(access = Access.WRITE_ONLY)
   private final List<Opportunity> opportunities = new LinkedList<>();
 
   @Transient
